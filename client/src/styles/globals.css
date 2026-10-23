@@ -15,7 +15,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
 
 .progress-bar { position: fixed; top: 0; left: 0; right: 0; height: 2px; background: #fff; transform-origin: 0%; z-index: 9999; box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); }
 .app-shell { position: relative; z-index: 1; }
-.section { max-width: 1100px; margin: 0 auto; padding: 120px 24px; position: relative; }
+.section { max-width: 1100px; margin: 0 auto; padding: 120px 24px; position: relative; overflow: visible; }
 .section-title { font-size: clamp(2rem, 4vw, 3rem); font-weight: 600; letter-spacing: -0.04em; margin-bottom: 16px; background: linear-gradient(180deg, #fff 0%, #888 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 .eyebrow { font-size: 0.75rem; letter-spacing: 0.25em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 16px; font-weight: 500; }
 .muted { color: var(--text-muted); }
@@ -194,7 +194,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
   .nav-toggle { display: block; }
   .hero-title { font-size: 3rem; }
   .form-row { grid-template-columns: 1fr; }
-  .section { padding: 80px 20px; }
+  .section { max-width: 1100px; margin: 0 auto; padding: 120px 24px; position: relative; overflow: visible; }
   .hero-actions { flex-direction: column; }
   .stats-container { grid-template-columns: 1fr; }
 }
@@ -298,4 +298,250 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
   height: 100%;
   background: #ffffff;
   box-shadow: 0 0 10px #ffffff;
+}
+/* 3D TILT WRAPPER */
+.tilt-wrapper {
+  perspective: 1000px;
+  width: 100%;
+  height: 100%;
+}
+
+/* Memastikan card tidak overflow saat di-tilt */
+.card {
+  transform-style: preserve-3d;
+}
+/* --- AUDIO PLAYER (KIRI BAWAH) --- */
+.audio-btn {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(5,5,5,0.8);
+  border: 1px solid var(--border);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  z-index: 50;
+  transition: all 0.3s;
+}
+
+.audio-btn:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: #fff;
+  box-shadow: 0 0 20px rgba(255,255,255,0.2);
+}
+
+.audio-btn.playing {
+  border-color: #4ade80;
+  box-shadow: 0 0 20px rgba(74, 222, 128, 0.3);
+  color: #4ade80;
+}
+
+.spin-slow {
+  animation: spin 4s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+/* --- KONAMI EASTER EGG SHAKE --- */
+@keyframes screenShake {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  20% { transform: translate(-10px, 10px) rotate(-2deg); }
+  40% { transform: translate(10px, -10px) rotate(2deg); }
+  60% { transform: translate(-10px, -10px) rotate(-1deg); }
+  80% { transform: translate(10px, 10px) rotate(1deg); }
+}
+/* --- CLEAN & SHARP UI OVERRIDES --- */
+:root {
+  --border: rgba(255, 255, 255, 0.12); /* Border lebih tegas */
+}
+
+/* Kartu dibuat lebih solid, bukan blur neon */
+.card {
+  background: #0a0a0a;
+  border: 1px solid var(--border);
+  border-radius: 12px; /* Sedikit lebih bulat elegan */
+  transition: border-color 0.3s, transform 0.3s;
+}
+.card:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Tech Card Lebih Rapi */
+.tech-card {
+  background: #050505;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.tech-header {
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+}
+.tech-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.tech-item {
+  font-size: 0.95rem;
+  color: #ccc;
+}
+
+/* Project Card */
+.project-card {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Sembunyikan Tilt Wrapper jika masih ada */
+.tilt-wrapper { perspective: none; }
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr !important; text-align: center; padding-top: 120px !important; }
+  .hero-actions { justify-content: center; }
+  .hero > div:nth-child(2) { height: 300px !important; margin-top: 40px; }
+}
+/* --- CSS PLANET ORB (PENGGANTI 3D) --- */
+.css-planet {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ffffff, #888 40%, #000 100%);
+  box-shadow: inset -20px -20px 50px rgba(0,0,0,0.9), 0 0 60px rgba(255,255,255,0.2);
+  animation: spinPlanet 30s linear infinite, floatPlanet 6s ease-in-out infinite alternate;
+}
+
+.css-planet-ring {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 400px; height: 100px;
+  border: 2px solid rgba(255,255,255,0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) rotateX(75deg) rotateZ(20deg);
+  box-shadow: 0 0 20px rgba(255,255,255,0.1);
+}
+
+@keyframes spinPlanet {
+  from { background-position: 0 0; }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes floatPlanet {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-20px); }
+}
+/* --- ORBITAL TECH STACK (CSS MURNI) --- */
+.orbit-system {
+  position: relative;
+  width: 100%;
+  height: 700px; /* Diperbesar agar tidak terpotong */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  overflow: visible;
+}
+
+.orbit-core {
+  position: absolute;
+  width: 100px; height: 100px;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  box-shadow: 0 0 50px rgba(255,255,255,0.2);
+  z-index: 10;
+  animation: pulseCore 3s ease-in-out infinite alternate;
+}
+
+.orbit-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px dashed rgba(255,255,255,0.15);
+}
+.ring-1 { width: 240px; height: 240px; }
+.ring-2 { width: 400px; height: 400px; }
+.ring-3 { width: 560px; height: 560px; border: 1px solid rgba(255,255,255,0.05); }
+
+.orbit-node-wrapper {
+  position: absolute;
+  width: 0; height: 0;
+  animation: spinOrbit var(--speed) linear infinite;
+}
+
+.orbit-node {
+  position: absolute;
+  transform: translate(-50%, -50%) rotate(calc(-1 * var(--angle))) translateY(calc(-1 * var(--radius)));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  animation: spinOrbitReverse var(--speed) linear infinite;
+  cursor: pointer;
+}
+
+.tech-icon-box {
+  width: 50px; height: 50px;
+  background: rgba(10,10,10,0.8);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(4px);
+  box-shadow: inset 0 0 10px rgba(255,255,255,0.05);
+}
+
+.tech-icon-box:hover {
+  border-color: #fff;
+  box-shadow: 0 0 20px rgba(255,255,255,0.4);
+  transform: scale(1.15);
+  background: rgba(255,255,255,0.1);
+}
+
+.tech-name {
+  font-size: 0.7rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0;
+  transition: opacity 0.3s;
+  white-space: nowrap;
+}
+
+.orbit-node:hover .tech-name {
+  opacity: 1;
+}
+
+@keyframes spinOrbit {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+@keyframes spinOrbitReverse {
+  0% { transform: translate(-50%, -50%) rotate(calc(-1 * var(--angle))) translateY(calc(-1 * var(--radius))) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(calc(-1 * var(--angle))) translateY(calc(-1 * var(--radius))) rotate(-360deg); }
+}
+
+@keyframes pulseCore {
+  0% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+@media (max-width: 768px) {
+  .orbit-system { transform: scale(0.5); height: 450px; }
 }

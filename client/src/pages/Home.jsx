@@ -4,7 +4,7 @@ import Footer from '../components/Footer';
 import Hero from '../sections/Hero';
 import About from '../sections/About';
 import Skills from '../sections/Skills';
-import GitHubProjects from '../sections/GitHubProjects'; // Ganti Projects
+import GitHubProjects from '../sections/GitHubProjects';
 import MiniGame from '../sections/MiniGame';
 import Contact from '../sections/Contact';
 import api from '../services/api';
