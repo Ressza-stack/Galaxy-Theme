@@ -1,0 +1,120 @@
+.galaxy-bg {
+  position: fixed; inset: 0; z-index: -1; overflow: hidden;
+  background: #000000;
+}
+
+.star-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+/* BLACK HOLE EFEK */
+.black-hole-wrapper {
+  position: absolute;
+  top: 15%;
+  right: 15%;
+  width: 400px;
+  height: 400px;
+  pointer-events: none; /* Agar tidak menghalangi klik mouse */
+  animation: floatBlackHole 15s ease-in-out infinite alternate;
+}
+
+.black-hole-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.8;
+}
+
+/* Inti Lubang Hitam */
+.black-hole-core {
+  width: 120px;
+  height: 120px;
+  background: #000;
+  border-radius: 50%;
+  box-shadow: 
+    inset 0 0 20px 2px rgba(255, 255, 255, 0.1),
+    0 0 50px 15px rgba(255, 255, 255, 0.15);
+  z-index: 2;
+}
+
+/* Cincin Cahaya (Accretion Disk) */
+.accretion-disk {
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-top-color: rgba(255, 255, 255, 0.8);
+  border-right-color: rgba(255, 255, 255, 0.4);
+  transform: rotateX(75deg) rotateZ(20deg);
+  animation: spinDisk 20s linear infinite;
+  box-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
+}
+
+.accretion-disk::before {
+  content: '';
+  position: absolute;
+  inset: 20px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transform: rotateZ(-40deg);
+}
+
+@keyframes spinDisk {
+  to { transform: rotateX(75deg) rotateZ(380deg); }
+}
+
+/* Animasi Melayang (Idle) */
+@keyframes floatBlackHole {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(-30px, 30px); }
+}
+
+/* CUSTOM CURSOR */
+body {
+  cursor: none; /* Sembunyikan kursor bawaan */
+}
+a, button, input, textarea, select {
+  cursor: none;
+}
+
+.cursor-dot, .cursor-ring {
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+}
+
+.cursor-dot {
+  width: 6px; height: 6px;
+  background: #ffffff;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+.cursor-ring {
+  width: 36px; height: 36px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  transition: width 0.2s, height 0.2s, background-color 0.2s, border-color 0.2s;
+}
+
+/* Saat hover ke elemen interaktif (link/button) */
+.cursor-ring.hovering {
+  width: 50px; height: 50px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+@media (max-width: 768px) {
+  .black-hole-wrapper {
+    top: 5%;
+    right: -20%;
+    transform: scale(0.6);
+    opacity: 0.4;
+    animation: none; /* Matikan float di mobile agar performa ringan */
+  }
+  body, a, button { cursor: auto; } /* Kembalikan kursor normal di HP */
+  .cursor-dot, .cursor-ring { display: none; }
+}

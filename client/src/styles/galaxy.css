@@ -1,0 +1,123 @@
+.galaxy-bg {
+  position: fixed; inset: 0; z-index: -1; overflow: hidden;
+  background: #000000;
+}
+
+.star-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+/* SHOOTING STARS */
+.shooting-star {
+  position: absolute; top: 50%; left: 50%;
+  width: 4px; height: 4px; background: #fff; border-radius: 50%;
+  box-shadow: 0 0 0 4px rgba(255,255,255,0.1), 0 0 0 8px rgba(255,255,255,0.1), 0 0 20px rgba(255,255,255, 1);
+  animation: shoot 3s ease-in infinite; animation-delay: var(--delay); opacity: 0;
+}
+.shooting-star::before {
+  content: ''; position: absolute; top: 50%; transform: translateY(-50%);
+  width: 300px; height: 1px; background: linear-gradient(90deg, #fff, transparent);
+}
+@keyframes shoot {
+  0% { transform: rotate(-35deg) translateX(0); opacity: 1; }
+  30% { transform: rotate(-35deg) translateX(-1000px); opacity: 0; }
+  100% { opacity: 0; }
+}
+.shooting-star:nth-child(1) { top: 10%; left: 90%; --delay: 0s; }
+.shooting-star:nth-child(2) { top: 30%; left: 70%; --delay: 4s; }
+.shooting-star:nth-child(3) { top: 50%; left: 80%; --delay: 8s; }
+
+/* BLACK HOLE EFEK */
+.black-hole-wrapper {
+  width: 400px; height: 400px;
+  pointer-events: none; 
+  z-index: 0; 
+  transition: transform 0.2s ease;
+}
+
+/* Efek saat black hole sedang di-grab */
+.black-hole-wrapper.grabbed .black-hole-core {
+  box-shadow: inset 0 0 30px 10px rgba(255, 255, 255, 0.3), 0 0 100px 40px rgba(255, 255, 255, 0.5);
+  transform: scale(1.1);
+}
+
+.black-hole-wrapper.grabbed .accretion-disk {
+  border-width: 3px;
+  border-top-color: rgba(255, 255, 255, 1);
+  animation-duration: 3s; /* Berputar lebih cepat saat di-grab */
+}
+
+.black-hole-container {
+  position: relative; width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0.9;
+}
+
+.black-hole-core {
+  width: 120px; height: 120px; background: #000; border-radius: 50%;
+  box-shadow: inset 0 0 20px 2px rgba(255, 255, 255, 0.1), 0 0 60px 20px rgba(255, 255, 255, 0.2);
+  z-index: 2;
+  animation: pulseCore 4s ease-in-out infinite alternate;
+  transition: box-shadow 0.4s, transform 0.4s;
+}
+
+.accretion-disk {
+  position: absolute; width: 320px; height: 320px; border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-top-color: rgba(255, 255, 255, 0.9);
+  border-right-color: rgba(255, 255, 255, 0.5);
+  transform: rotateX(75deg) rotateZ(20deg);
+  animation: spinDisk 15s linear infinite, pulseDisk 6s ease-in-out infinite alternate;
+  box-shadow: 0 0 40px rgba(255, 255, 255, 0.15), inset 0 0 20px rgba(255,255,255,0.1);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.accretion-disk::before {
+  content: ''; position: absolute; inset: 20px;
+  border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.3);
+  transform: rotateZ(-40deg);
+}
+
+@keyframes spinDisk { to { transform: rotateX(75deg) rotateZ(380deg); } }
+@keyframes pulseCore {
+  0% { box-shadow: inset 0 0 20px 2px rgba(255, 255, 255, 0.1), 0 0 50px 15px rgba(255, 255, 255, 0.15); }
+  100% { box-shadow: inset 0 0 30px 5px rgba(255, 255, 255, 0.2), 0 0 80px 25px rgba(255, 255, 255, 0.3); }
+}
+@keyframes pulseDisk {
+  0% { opacity: 0.7; } 100% { opacity: 1; }
+}
+
+/* CUSTOM CURSOR */
+body { cursor: none; }
+a, button, input, textarea, select { cursor: none; }
+.cursor-dot, .cursor-ring {
+  position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999;
+  transform: translate(-50%, -50%); border-radius: 50%;
+  transition: width 0.2s, height 0.2s, background-color 0.2s, border-color 0.2s, opacity 0.2s;
+}
+.cursor-dot {
+  width: 6px; height: 6px; background: #ffffff;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+.cursor-ring {
+  width: 36px; height: 36px; border: 1px solid rgba(255, 255, 255, 0.4);
+}
+.cursor-ring.hovering {
+  width: 50px; height: 50px; background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+/* Cursor berubah saat sedang grab black hole */
+.cursor-ring.grabbed {
+  width: 20px; height: 20px;
+  border: 2px dashed rgba(255,255,255,0.8);
+  background-color: transparent;
+  animation: spinCursor 4s linear infinite;
+}
+.cursor-dot.grabbed { opacity: 0; }
+
+@keyframes spinCursor { to { transform: translate(-50%, -50%) rotate(360deg); } }
+
+@media (max-width: 768px) {
+  body, a, button { cursor: auto; }
+  .cursor-dot, .cursor-ring { display: none; }
+  .black-hole-wrapper { display: none; }
+}
