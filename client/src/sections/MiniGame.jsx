@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Reveal from '../components/Reveal';
-import { Rocket, RotateCcw } from 'lucide-react';
+import { Rocket, RotateCcw, Grid } from 'lucide-react';
+import SpaceMemoryGame from '../components/SpaceMemoryGame';
 
 export default function MiniGame() {
   const canvasRef = useRef(null);
@@ -32,15 +33,12 @@ export default function MiniGame() {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
     
-    // Set resolusi canvas
-    canvas.width = 500;
+    canvas.width = 400;
     canvas.height = 350;
 
-    // Kontrol mouse
     const handleMouseMove = (e) => {
       const rect = canvas.getBoundingClientRect();
       const mouseX = e.clientX - rect.left;
-      // Batasi agar pesawat tidak keluar layar
       gameState.current.player.x = Math.max(0, Math.min(mouseX - 15, canvas.width - 30));
     };
     canvas.addEventListener('mousemove', handleMouseMove);
@@ -51,7 +49,6 @@ export default function MiniGame() {
       const state = gameState.current;
       state.frame++;
 
-      // Spawn Asteroid
       if (state.frame % Math.max(10, 40 - Math.floor(state.speed * 2)) === 0) {
         state.asteroids.push({
           x: Math.random() * (canvas.width - 30),
@@ -61,12 +58,10 @@ export default function MiniGame() {
         });
       }
 
-      // Update Asteroid
       for (let i = state.asteroids.length - 1; i >= 0; i--) {
         const ast = state.asteroids[i];
         ast.y += ast.speedY;
 
-        // Deteksi Tabrakan (Simple AABB)
         if (
           ast.y + ast.size > state.player.y &&
           ast.y < state.player.y + state.player.height &&
@@ -75,29 +70,25 @@ export default function MiniGame() {
         ) {
           setGameOver(true);
           setIsPlaying(false);
-          return; // Hentikan loop
+          return;
         }
 
-        // Hapus jika lewat bawah
         if (ast.y > canvas.height) {
           state.asteroids.splice(i, 1);
           setScore(s => s + 10);
-          state.speed += 0.05; // Percepat game
+          state.speed += 0.05;
         }
       }
 
-      // Render
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
-      // Draw Player (Pesawat)
-      ctx.fillStyle = '#fff';
+      ctx.fillStyle = '#4f8eff';
       ctx.beginPath();
       ctx.moveTo(state.player.x + 15, state.player.y);
       ctx.lineTo(state.player.x, state.player.y + 30);
       ctx.lineTo(state.player.x + 30, state.player.y + 30);
       ctx.fill();
 
-      // Draw Asteroids
       ctx.fillStyle = '#555';
       state.asteroids.forEach(ast => {
         ctx.beginPath();
@@ -120,35 +111,51 @@ export default function MiniGame() {
     <section id="game" className="section">
       <Reveal>
         <p className="eyebrow">INTERACTIVE EXPERIENCE</p>
-        <h2 className="section-title">Space Dodger.</h2>
-        <p className="section-sub">Use your mouse to navigate the ship and dodge the asteroids. Let's see how long you can survive.</p>
+        <h2 className="section-title">Cyber Arcade.</h2>
       </Reveal>
 
-      <Reveal delay={0.1}>
-        <div className="game-container">
-          {!isPlaying && !gameOver && (
-            <div className="game-overlay">
-              <Rocket size={48} className="mb-4 text-white" />
-              <h3>Ready to launch?</h3>
-              <button className="btn btn-primary" onClick={startGame}>Start Game</button>
-            </div>
-          )}
-          {gameOver && (
-            <div className="game-overlay">
-              <h3 className="text-red">Mission Failed</h3>
-              <p className="text-xl">Score: {score}</p>
-              <button className="btn btn-ghost" onClick={startGame}><RotateCcw size={16} /> Try Again</button>
-            </div>
-          )}
-          
-          <canvas ref={canvasRef} className="game-canvas" />
-          
-          <div className="game-hud">
-            <span>SCORE: {score}</span>
-            <span>STATUS: {isPlaying ? 'IN COMBAT' : 'STANDBY'}</span>
+      <div className="arcade-grid">
+        {/* KIRI: SPACE MEMORY GAME */}
+        <div className="arcade-panel">
+          <div className="panel-header">
+            <Grid size={14} /> MEMORY_MATRIX.exe
+          </div>
+          <div className="memory-wrapper">
+            <SpaceMemoryGame />
           </div>
         </div>
-      </Reveal>
+
+        {/* KANAN: SPACE DODGER GAME */}
+        <div className="arcade-panel">
+          <div className="panel-header">
+            <Rocket size={14} /> SPACE_DODGER.exe
+          </div>
+          
+          <div className="game-container-inner">
+            {!isPlaying && !gameOver && (
+              <div className="game-overlay">
+                <Rocket size={48} className="mb-4 text-white" />
+                <h3>Ready to launch?</h3>
+                <button className="btn btn-primary" onClick={startGame}>Start Game</button>
+              </div>
+            )}
+            {gameOver && (
+              <div className="game-overlay">
+                <h3 className="text-red">Mission Failed</h3>
+                <p className="text-xl">Score: {score}</p>
+                <button className="btn btn-ghost" onClick={startGame}><RotateCcw size={16} /> Try Again</button>
+              </div>
+            )}
+            
+            <canvas ref={canvasRef} className="game-canvas" />
+            
+            <div className="game-hud">
+              <span>SCORE: {score}</span>
+              <span>STATUS: {isPlaying ? 'IN COMBAT' : 'STANDBY'}</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }

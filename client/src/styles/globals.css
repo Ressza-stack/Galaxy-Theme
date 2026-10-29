@@ -204,7 +204,17 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
 /* NAVBAR PREMIUM */
 .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; transition: background 0.3s, border-color 0.3s; border-bottom: 1px solid transparent; }
 .navbar-scrolled { background: rgba(0,0,0,0.6); backdrop-filter: blur(16px); border-bottom-color: var(--border); }
-.navbar-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; }
+.navbar-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 20px 24px;
+}
+.brand { justify-self: start; }
+.nav-links { justify-self: center; }
+.nav-toggle { justify-self: end; display: none; background: none; border: none; color: #fff; cursor: pointer; }
 .brand { display: flex; align-items: center; gap: 12px; color: var(--text); text-decoration: none; font-weight: 500; z-index: 101; }
 .brand-logo { color: #fff; }
 .brand-name { font-size: 1rem; }
@@ -441,11 +451,51 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
   0% { transform: translateY(0); }
   100% { transform: translateY(-20px); }
 }
+/* --- NAMA & ANIMASI KUSTOM --- */
+.hero-title {
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  margin: 0;
+  line-height: 1.1;
+  background: linear-gradient(135deg, #ffffff 0%, #a3a3a3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-name {
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  color: #4f8eff;
+  margin-top: 8px;
+  margin-bottom: 24px;
+}
+
+.hero-name span {
+  -webkit-text-fill-color: #4f8eff; /* Fix bug gradient text di span */
+}
+
+/* Teks di tengah Orbit */
+.orbit-core {
+  background: radial-gradient(circle, rgba(79,142,255,0.2) 0%, transparent 70%) !important;
+  border: 1px solid rgba(79,142,255,0.5) !important;
+  box-shadow: 0 0 30px rgba(79,142,255,0.3) !important;
+}
+
+.core-text {
+  font-family: monospace;
+  font-weight: bold;
+  color: #fff;
+  letter-spacing: 0.1em;
+  font-size: 0.9rem;
+  text-shadow: 0 0 10px #4f8eff;
+}
 /* --- ORBITAL TECH STACK (CSS MURNI) --- */
 .orbit-system {
   position: relative;
   width: 100%;
-  height: 700px; /* Diperbesar agar tidak terpotong */
+  height: 700px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -456,16 +506,24 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
 .orbit-core {
   position: absolute;
   width: 100px; height: 100px;
-  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-  border: 1px solid rgba(255,255,255,0.2);
+  background: radial-gradient(circle, rgba(79,142,255,0.2) 0%, transparent 70%);
+  border: 1px solid rgba(79,142,255,0.5);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
-  box-shadow: 0 0 50px rgba(255,255,255,0.2);
+  box-shadow: 0 0 30px rgba(79,142,255,0.3);
   z-index: 10;
   animation: pulseCore 3s ease-in-out infinite alternate;
+}
+
+.core-text {
+  font-family: monospace;
+  font-weight: bold;
+  color: #fff;
+  letter-spacing: 0.1em;
+  font-size: 0.9rem;
+  text-shadow: 0 0 10px #4f8eff;
 }
 
 .orbit-ring {
@@ -515,17 +573,43 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
 }
 
 .tech-name {
+  position: absolute;
+  top: 110%;
   font-size: 0.7rem;
-  color: #888;
+  color: #fff;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  opacity: 0;
-  transition: opacity 0.3s;
+  opacity: 0.8;
+  transition: all 0.3s;
   white-space: nowrap;
+  text-shadow: 0 0 5px #4f8eff;
+  pointer-events: none;
+}
+.orbit-node:hover .tech-name {
+  opacity: 1;
+  color: #4ade80;
+  text-shadow: 0 0 15px #4ade80;
+  transform: scale(1.1) translateY(2px);
 }
 
 .orbit-node:hover .tech-name {
+  position: absolute;
+  top: 110%;
+  font-size: 0.7rem;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.8;
+  transition: all 0.3s;
+  white-space: nowrap;
+  text-shadow: 0 0 5px #4f8eff;
+  pointer-events: none;
+}
+.orbit-node:hover .tech-name {
   opacity: 1;
+  color: #4ade80;
+  text-shadow: 0 0 15px #4ade80;
+  transform: scale(1.1) translateY(2px);
 }
 
 @keyframes spinOrbit {
@@ -536,12 +620,2448 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
   0% { transform: translate(-50%, -50%) rotate(calc(-1 * var(--angle))) translateY(calc(-1 * var(--radius))) rotate(0deg); }
   100% { transform: translate(-50%, -50%) rotate(calc(-1 * var(--angle))) translateY(calc(-1 * var(--radius))) rotate(-360deg); }
 }
-
 @keyframes pulseCore {
-  0% { opacity: 0.5; }
-  100% { opacity: 1; }
+  0% { opacity: 0.6; }
+  100% { opacity: 1; box-shadow: 0 0 50px rgba(79,142,255,0.6); }
 }
 
 @media (max-width: 768px) {
   .orbit-system { transform: scale(0.5); height: 450px; }
+}
+/* --- ADVANCED LOADING SCREEN --- */
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #000000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Background Warp Speed (CSS Murni) */
+.warp-stars {
+  position: absolute;
+  inset: 0;
+  perspective: 1000px;
+}
+.warp-star {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 2px; height: 2px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #fff;
+  animation: warpSpeed 2s linear infinite;
+}
+.star-1 { animation-delay: 0s; }
+.star-2 { animation-delay: 0.4s; width: 3px; height: 3px; }
+.star-3 { animation-delay: 0.8s; }
+.star-4 { animation-delay: 1.2s; width: 4px; height: 4px; }
+.star-5 { animation-delay: 1.6s; }
+
+@keyframes warpSpeed {
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(20) translateZ(500px); opacity: 0; }
+}
+
+.loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 10;
+}
+
+/* Glowing Core */
+.loading-icon-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.loading-icon {
+  color: #4f8eff;
+  filter: drop-shadow(0 0 15px rgba(79,142,255,0.8));
+}
+.loading-pulse-ring {
+  position: absolute;
+  width: 100px; height: 100px;
+  border: 1px solid rgba(79,142,255,0.5);
+  border-radius: 50%;
+  animation: pulseRing 2s ease-out infinite;
+}
+
+@keyframes pulseRing {
+  0% { transform: scale(0.5); opacity: 1; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+/* Terminal Logs */
+.loading-terminal {
+  height: 30px;
+  margin-top: 24px;
+  font-family: monospace;
+  font-size: 0.85rem;
+  color: #4ade80; /* Terminal green */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.log-arrow { color: #888; margin-right: 8px; }
+
+/* Progress Bar */
+.loading-bar-container {
+  width: 280px;
+  height: 2px;
+  background: rgba(79,142,255,0.2);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 20px;
+  position: relative;
+}
+
+.loading-bar {
+  height: 100%;
+  background: #4f8eff;
+  box-shadow: 0 0 10px #4f8eff;
+}
+/* BLACK HOLE VISUALS */
+.black-hole-container {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.black-hole-core {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  border-radius: 50%;
+  box-shadow: 
+    inset 0 0 20px 2px rgba(255, 255, 255, 0.1),
+    0 0 40px 10px rgba(255, 255, 255, 0.15);
+  z-index: 2;
+}
+
+.black-hole-ring {
+  position: absolute;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, transparent 0%, rgba(255, 255, 255, 0.8) 25%, transparent 50%);
+  animation: spinRing 3s linear infinite;
+  /* Masking agar hanya menyisakan cincin di pinggir */
+  -webkit-mask-image: radial-gradient(transparent 55%, black 56%);
+  mask-image: radial-gradient(transparent 55%, black 56%);
+  z-index: 1;
+  filter: blur(2px);
+}
+
+@keyframes spinRing {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* TEXT & PROGRESS BAR */
+.loading-text-wrapper {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 3;
+}
+
+.typing-text {
+  font-family: monospace;
+  font-size: 1.1rem;
+  color: #fff;
+  letter-spacing: 0.2em;
+  margin-bottom: 16px;
+}
+
+.loading-bar-container {
+  width: 200px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.loading-bar {
+  height: 100%;
+  background: #ffffff;
+  box-shadow: 0 0 10px #ffffff;
+}
+
+.loading-subtext {
+  font-family: monospace;
+  font-size: 0.7rem;
+  color: #666;
+  margin-top: 12px;
+  letter-spacing: 0.1em;
+}
+/* --- BLACK HOLE LOADING SCREEN (CINEMATIC) --- */
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #000000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+/* BLACK HOLE CORE */
+.black-hole-container {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.black-hole-core {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  border-radius: 50%;
+  box-shadow: 
+    inset 0 0 30px 5px rgba(255, 255, 255, 0.1),
+    0 0 60px 20px rgba(255, 255, 255, 0.15);
+  z-index: 3;
+}
+
+/* ACCRETION DISKS (Cincin Plasma) */
+.black-hole-ring {
+  position: absolute;
+  border-radius: 50%;
+  /* Masking lingkaran tengah agar bolong */
+  -webkit-mask-image: radial-gradient(transparent 60%, black 61%);
+  mask-image: radial-gradient(transparent 60%, black 61%);
+  z-index: 2;
+}
+
+/* Cincin 1: Putih-Biru, Berputar Cepat */
+.ring-a {
+  width: 180px;
+  height: 180px;
+  background: conic-gradient(from 0deg, transparent 0%, rgba(255, 255, 255, 0.9) 40%, rgba(79, 142, 255, 0.8) 60%, transparent 100%);
+  animation: spinRing 4s linear infinite;
+  filter: blur(3px);
+}
+
+/* Cincin 2: Lebih Besar, Berputar Lambat Berlawanan Arah */
+.ring-b {
+  width: 240px;
+  height: 240px;
+  background: conic-gradient(from 180deg, transparent 0%, rgba(255, 255, 255, 0.5) 30%, transparent 100%);
+  animation: spinRingReverse 8s linear infinite;
+  filter: blur(6px);
+  opacity: 0.7;
+}
+
+@keyframes spinRing {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes spinRingReverse {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+/* TEXT & PROGRESS BAR */
+.loading-text-wrapper {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 4;
+}
+
+.typing-text {
+  font-family: monospace;
+  font-size: 1.2rem;
+  color: #fff;
+  letter-spacing: 0.3em;
+  margin-bottom: 20px;
+  text-shadow: 0 0 10px rgba(255,255,255,0.5);
+}
+
+.loading-bar-container {
+  width: 220px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.loading-bar {
+  height: 100%;
+  background: #ffffff;
+  box-shadow: 0 0 15px #4f8eff;
+}
+
+.loading-subtext {
+  font-family: monospace;
+  font-size: 0.7rem;
+  color: #4f8eff;
+  margin-top: 16px;
+  letter-spacing: 0.2em;
+  animation: pulseText 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes pulseText {
+  0% { opacity: 0.3; }
+  100% { opacity: 1; }
+}
+/* --- BLACK HOLE LOADING SCREEN (EATING UI) --- */
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #000000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+/* BLACK HOLE CORE */
+.black-hole-container {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.black-hole-core {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  border-radius: 50%;
+  box-shadow: 
+    inset 0 0 30px 5px rgba(255, 255, 255, 0.1),
+    0 0 60px 20px rgba(255, 255, 255, 0.15);
+  z-index: 3;
+}
+
+/* ACCRETION DISKS (Cincin Plasma) */
+.black-hole-ring {
+  position: absolute;
+  border-radius: 50%;
+  -webkit-mask-image: radial-gradient(transparent 60%, black 61%);
+  mask-image: radial-gradient(transparent 60%, black 61%);
+  z-index: 2;
+}
+
+/* Cincin 1: Putih-Biru, Berputar Cepat */
+.ring-a {
+  width: 180px;
+  height: 180px;
+  background: conic-gradient(from 0deg, transparent 0%, rgba(255, 255, 255, 0.9) 40%, rgba(79, 142, 255, 0.8) 60%, transparent 100%);
+  animation: spinRing 4s linear infinite;
+  filter: blur(3px);
+}
+
+/* Cincin 2: Lebih Besar, Berputar Lambat Berlawanan Arah */
+.ring-b {
+  width: 240px;
+  height: 240px;
+  background: conic-gradient(from 180deg, transparent 0%, rgba(255, 255, 255, 0.5) 30%, transparent 100%);
+  animation: spinRingReverse 8s linear infinite;
+  filter: blur(6px);
+  opacity: 0.7;
+}
+
+@keyframes spinRing {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes spinRingReverse {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+/* TEXT & PROGRESS BAR (UI yang akan dimakan) */
+.loading-ui {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1; /* Di bawah black hole agar terlihat masuk ke dalamnya */
+}
+
+.typing-text {
+  font-family: monospace;
+  font-size: 1.1rem;
+  color: #fff;
+  letter-spacing: 0.2em;
+  margin-bottom: 16px;
+}
+
+.loading-bar-container {
+  width: 200px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.loading-bar {
+  height: 100%;
+  background: #ffffff;
+  box-shadow: 0 0 10px #4f8eff;
+}
+
+.loading-subtext {
+  font-family: monospace;
+  font-size: 0.7rem;
+  color: #4f8eff;
+  margin-top: 12px;
+  letter-spacing: 0.1em;
+  animation: pulseText 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes pulseText {
+  0% { opacity: 0.3; }
+  100% { opacity: 1; }
+}
+/* Container untuk Black Hole di Loading Screen */
+.loading-black-hole {
+  width: 300px;
+  height: 300px;
+  position: relative;
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* CSS Ini PERSIS sama dengan yang ada di galaxy.css kamu */
+.loading-black-hole .black-hole-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  transform: scale(1.2); /* Dibesarkan sedikit biar fokus */
+}
+
+.loading-black-hole .black-hole-core {
+  width: 120px;
+  height: 120px;
+  background: #000;
+  border-radius: 50%;
+  box-shadow: 
+    inset 0 0 20px 2px rgba(255, 255, 255, 0.1),
+    0 0 60px 20px rgba(255, 255, 255, 0.2);
+  z-index: 2;
+  animation: pulseCore 4s ease-in-out infinite alternate;
+}
+
+.loading-black-hole .accretion-disk {
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-top-color: rgba(255, 255, 255, 0.9);
+  border-right-color: rgba(255, 255, 255, 0.5);
+  transform: rotateX(75deg) rotateZ(20deg);
+  animation: spinDisk 15s linear infinite, pulseDisk 6s ease-in-out infinite alternate;
+  box-shadow: 0 0 40px rgba(255, 255, 255, 0.15), inset 0 0 20px rgba(255,255,255,0.1);
+}
+
+.loading-black-hole .accretion-disk::before {
+  content: '';
+  position: absolute;
+  inset: 20px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transform: rotateZ(-40deg);
+}
+
+/* ANIMASI TEKS (Ditarik ke atas menuju pusat black hole) */
+.loading-ui {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+}
+
+.typing-text {
+  font-family: monospace;
+  font-size: 1rem;
+  color: #fff;
+  letter-spacing: 0.2em;
+  margin-bottom: 16px;
+}
+
+.loading-bar-container {
+  width: 180px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.loading-bar {
+  height: 100%;
+  background: #ffffff;
+  box-shadow: 0 0 10px #4f8eff;
+}
+
+.loading-subtext {
+  font-family: monospace;
+  font-size: 0.7rem;
+  color: #4f8eff;
+  margin-top: 12px;
+  letter-spacing: 0.1em;
+  animation: pulseText 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes pulseText {
+  0% { opacity: 0.3; }
+  100% { opacity: 1; }
+}
+
+/* Kita butuh keyframes ini karena loading screen terpisah dari galaxy.css */
+@keyframes pulseCore {
+  0% { box-shadow: inset 0 0 20px 2px rgba(255, 255, 255, 0.1), 0 0 50px 15px rgba(255, 255, 255, 0.15); }
+  100% { box-shadow: inset 0 0 30px 5px rgba(255, 255, 255, 0.2), 0 0 80px 25px rgba(255, 255, 255, 0.3); }
+}
+@keyframes spinDisk {
+  to { transform: rotateX(75deg) rotateZ(380deg); }
+}
+@keyframes pulseDisk {
+  0% { opacity: 0.7; }
+  100% { opacity: 1; }
+}
+/* PARTIKEL LOADING SCREEN */
+.particle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1; /* Di bawah black hole (z-index: 10) */
+}
+/* --- LOADING SCREEN (EPIC FULL SCREEN) --- */
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #000000;
+  overflow: hidden;
+}
+
+/* Layer Background */
+.particles-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Layer Tengah (Black Hole & Teks) */
+.center-layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+/* Partikel (Planet & Bintang) */
+.particle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+}
+
+/* BINTANG JATUH */
+.shooting-star {
+  position: absolute;
+  width: 120px;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,1));
+  border-radius: 50%;
+  transform: rotate(-35deg);
+  animation: shoot linear infinite;
+  opacity: 0;
+  z-index: 5;
+}
+
+@keyframes shoot {
+  0% { transform: translateX(0) translateY(0) rotate(-35deg); opacity: 0; }
+  10% { opacity: 1; }
+  100% { transform: translateX(-800px) translateY(560px) rotate(-35deg); opacity: 0; }
+}
+
+/* BLACK HOLE */
+.loading-black-hole {
+  width: 300px;
+  height: 300px;
+  position: relative;
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-black-hole .black-hole-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(1.2);
+}
+
+.loading-black-hole .black-hole-core {
+  width: 120px;
+  height: 120px;
+  background: #000;
+  border-radius: 50%;
+  box-shadow: inset 0 0 20px 2px rgba(255, 255, 255, 0.1), 0 0 60px 20px rgba(255, 255, 255, 0.2);
+  z-index: 2;
+  animation: pulseCore 4s ease-in-out infinite alternate;
+}
+
+.loading-black-hole .accretion-disk {
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-top-color: rgba(255, 255, 255, 0.9);
+  border-right-color: rgba(255, 255, 255, 0.5);
+  transform: rotateX(75deg) rotateZ(20deg);
+  animation: spinDisk 15s linear infinite, pulseDisk 6s ease-in-out infinite alternate;
+  box-shadow: 0 0 40px rgba(255, 255, 255, 0.15), inset 0 0 20px rgba(255,255,255,0.1);
+}
+
+.loading-black-hole .accretion-disk::before {
+  content: '';
+  position: absolute;
+  inset: 20px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transform: rotateZ(-40deg);
+}
+
+/* UI TEXT */
+.loading-ui {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 11;
+}
+
+.typing-text {
+  font-family: monospace;
+  font-size: 1rem;
+  color: #fff;
+  letter-spacing: 0.2em;
+  margin-bottom: 16px;
+}
+
+.loading-bar-container {
+  width: 180px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.loading-bar {
+  height: 100%;
+  background: #ffffff;
+  box-shadow: 0 0 10px #4f8eff;
+}
+
+.loading-subtext {
+  font-family: monospace;
+  font-size: 0.7rem;
+  color: #4f8eff;
+  margin-top: 12px;
+  letter-spacing: 0.1em;
+  animation: pulseText 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes pulseText {
+  0% { opacity: 0.3; }
+  100% { opacity: 1; }
+}
+
+@keyframes pulseCore {
+  0% { box-shadow: inset 0 0 20px 2px rgba(255, 255, 255, 0.1), 0 0 50px 15px rgba(255, 255, 255, 0.15); }
+  100% { box-shadow: inset 0 0 30px 5px rgba(255, 255, 255, 0.2), 0 0 80px 25px rgba(255, 255, 255, 0.3); }
+}
+@keyframes spinDisk {
+  to { transform: rotateX(75deg) rotateZ(380deg); }
+}
+@keyframes pulseDisk {
+  0% { opacity: 0.7; }
+  100% { opacity: 1; }
+}
+/* --- INTERACTIVE TERMINAL WIDGET --- */
+.terminal-toggle-btn {
+  position: fixed;
+  bottom: 90px; /* Di atas tombol AudioPlayer */
+  left: 24px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(5,5,5,0.8);
+  border: 1px solid #4ade80;
+  color: #4ade80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  z-index: 100;
+  box-shadow: 0 0 20px rgba(74, 222, 128, 0.2);
+  transition: all 0.3s;
+}
+.terminal-toggle-btn:hover {
+  background: rgba(74, 222, 128, 0.15);
+  box-shadow: 0 0 30px rgba(74, 222, 128, 0.4);
+}
+
+.terminal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.terminal-window {
+  width: 100%;
+  max-width: 650px;
+  height: 450px;
+  background: #050505;
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  border-radius: 8px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.8), inset 0 0 20px rgba(74, 222, 128, 0.05);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: monospace;
+}
+
+.terminal-header {
+  background: rgba(74, 222, 128, 0.1);
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #4ade80;
+  font-size: 0.85rem;
+  border-bottom: 1px solid rgba(74, 222, 128, 0.2);
+}
+
+.terminal-close-btn {
+  background: none; border: none; color: #4ade80; cursor: pointer; transition: color 0.2s;
+}
+.terminal-close-btn:hover { color: #ff5555; }
+
+.terminal-body-scroll {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  color: #4ade80;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Custom scrollbar untuk terminal */
+.terminal-body-scroll::-webkit-scrollbar { width: 6px; }
+.terminal-body-scroll::-webkit-scrollbar-thumb { background: rgba(74, 222, 128, 0.3); border-radius: 3px; }
+
+.term-line.sys { color: #888; font-style: italic; }
+.term-line.input { color: #fff; margin-top: 8px; font-weight: bold; }
+.term-line.output { color: #4ade80; padding-left: 12px; white-space: pre-wrap; }
+
+.terminal-input-form {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  border-top: 1px solid rgba(74, 222, 128, 0.2);
+  background: #000;
+  gap: 12px;
+}
+
+.term-prompt { color: #fff; font-weight: bold; font-size: 0.9rem; }
+
+.terminal-input-form input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #4ade80;
+  font-family: monospace;
+  font-size: 0.95rem;
+  outline: none;
+  caret-color: #4ade80;
+}
+
+@media (max-width: 768px) {
+  .terminal-toggle-btn { bottom: 90px; left: 24px; }
+  .terminal-window { height: 60vh; }
+}
+/* --- 3 FITUR BARU: HOLOGRAM, GLITCH, ROCKET --- */
+
+/* 1. HOLOGRAM ID CARD */
+.hologram-card {
+  position: relative;
+  background: rgba(10, 15, 30, 0.6);
+  border: 1px solid rgba(79, 142, 255, 0.3);
+  border-radius: 12px;
+  padding: 30px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 0 20px rgba(79, 142, 255, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  cursor: crosshair;
+}
+
+.hologram-card .scanline {
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
+  background: #4f8eff;
+  box-shadow: 0 0 10px #4f8eff;
+  animation: scanlineAnim 3s linear infinite;
+}
+
+@keyframes scanlineAnim {
+  0% { transform: translateY(-10px); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(300px); opacity: 0; }
+}
+
+.hologram-header { display: flex; justify-content: space-between; align-items: center; color: #4f8eff; font-family: monospace; font-size: 0.8rem; }
+.hologram-body h3 { font-size: 1.6rem; color: #fff; margin-bottom: 4px; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
+.hologram-body p { color: #4f8eff; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; }
+.hologram-barcode { width: 100%; height: 30px; background: repeating-linear-gradient(90deg, #fff 0, #fff 2px, transparent 2px, transparent 4px, #fff 4px, #fff 5px, transparent 5px, transparent 8px); opacity: 0.3; margin-top: 16px; }
+
+.hologram-card .stats-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.hologram-card .stat-box { background: rgba(0,0,0,0.5); padding: 12px; border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; text-align: center; }
+.hologram-card .stat-box h4 { font-size: 0.75rem; color: #aaa; margin-top: 8px; }
+
+/* 2. GLITCH TEXT EFFECT */
+.glitch-wrapper { position: relative; display: inline-block; }
+.glitch-text {
+  position: relative;
+  color: #fff;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+}
+.glitch-text::before, .glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: var(--bg);
+}
+.glitch-text::before {
+  left: 2px;
+  text-shadow: -2px 0 #ff00c1;
+  clip: rect(44px, 450px, 56px, 0);
+  animation: glitch-anim 5s infinite linear alternate-reverse;
+}
+.glitch-text::after {
+  left: -2px;
+  text-shadow: -2px 0 #00fff9, 2px 2px #ff00c1;
+  clip: rect(44px, 450px, 56px, 0);
+  animation: glitch-anim2 5s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim {
+  0% { clip: rect(10px, 9999px, 83px, 0); }
+  20% { clip: rect(62px, 9999px, 14px, 0); }
+  40% { clip: rect(33px, 9999px, 76px, 0); }
+  60% { clip: rect(98px, 9999px, 53px, 0); }
+  80% { clip: rect(42px, 9999px, 12px, 0); }
+  100% { clip: rect(76px, 9999px, 98px, 0); }
+}
+@keyframes glitch-anim2 {
+  0% { clip: rect(65px, 9999px, 100px, 0); }
+  20% { clip: rect(12px, 9999px, 45px, 0); }
+  40% { clip: rect(87px, 9999px, 23px, 0); }
+  60% { clip: rect(32px, 9999px, 67px, 0); }
+  80% { clip: rect(54px, 9999px, 89px, 0); }
+  100% { clip: rect(21px, 9999px, 43px, 0); }
+}
+
+/* Custom Scrollbar agar tidak bertabrakan */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #000; }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #4f8eff; }
+
+@media (max-width: 768px) {
+   /* Sembunyikan roket di HP */
+  .hologram-card { transform: none !important; }
+}
+/* Fix Posisi Black Hole Background */
+
+/* --- BLACK HOLE POSITIONING --- */
+.black-hole-wrapper {
+  position: absolute;
+  top: 15%;
+  right: 10%;
+  width: 400px;
+  height: 400px;
+  pointer-events: none; /* Biar ga ngeblok klik */
+  z-index: 2; /* Di atas nebula, di bawah konten */
+}
+
+@media (max-width: 900px) {
+  
+/* --- BLACK HOLE POSITIONING --- */
+.black-hole-wrapper {
+  position: absolute;
+  top: 15%;
+  right: 10%;
+  width: 400px;
+  height: 400px;
+  pointer-events: none; /* Biar ga ngeblok klik */
+  z-index: 2; /* Di atas nebula, di bawah konten */
+}
+}
+/* --- TYPEWRITER EFFECT --- */
+.typewriter-text {
+  color: #4f8eff;
+  text-shadow: 0 0 10px rgba(79, 142, 255, 0.5);
+}
+.typewriter-cursor {
+  color: #4f8eff;
+  font-weight: bold;
+}
+/* --- INTERACTIVE NEBULA BACKGROUND --- */
+.nebula-container {
+  position: fixed;
+  inset: 0;
+  z-index: -1; /* Di paling belakang */
+  overflow: hidden;
+  background: #000;
+}
+
+.nebula-cloud {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px); /* Efek awan gas */
+  opacity: 0.4;
+  animation: drift 20s ease-in-out infinite alternate;
+}
+
+.cloud-1 {
+  width: 800px; height: 800px;
+  background: radial-gradient(circle, rgba(79, 142, 255, 0.8) 0%, transparent 70%);
+  top: -20%; left: -10%;
+}
+
+.cloud-2 {
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.6) 0%, transparent 70%); /* Ungu */
+  bottom: -10%; right: -10%;
+  animation-delay: -5s;
+}
+
+.cloud-3 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.4) 0%, transparent 70%); /* Cyan */
+  top: 40%; left: 40%;
+  animation-delay: -10s;
+}
+
+@keyframes drift {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(50px, -50px) scale(1.1); }
+}
+/* --- HOLOGRAPHIC HUD PANEL --- */
+.hud-panel {
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  background: rgba(5, 10, 20, 0.8);
+  border: 1px solid #4f8eff;
+  border-radius: 4px;
+  padding: 20px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 30px rgba(79, 142, 255, 0.2);
+  z-index: 50;
+  overflow: hidden;
+  pointer-events: none; /* Biar ga ngeblok mouse */
+}
+
+.hud-scanline {
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
+  background: #4f8eff;
+  box-shadow: 0 0 10px #4f8eff;
+  animation: scanlineAnim 2s linear infinite;
+}
+
+.hud-corner {
+  position: absolute;
+  width: 10px; height: 10px;
+  border: 2px solid #fff;
+}
+.top-left { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+.top-right { top: -1px; right: -1px; border-left: none; border-bottom: none; }
+.bottom-left { bottom: -1px; left: -1px; border-right: none; border-top: none; }
+.bottom-right { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+
+.hud-content { text-align: center; }
+.hud-content h4 { font-size: 1.4rem; font-family: monospace; letter-spacing: 0.1em; margin-bottom: 4px; }
+.hud-desc { color: #aaa; font-size: 0.9rem; }
+.hud-orbit { color: #4f8eff; font-size: 0.7rem; font-family: monospace; margin-top: 8px; letter-spacing: 0.1em; }
+
+@keyframes spinOrbit {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+@keyframes spinOrbitReverse {
+  0% { transform: translate(-50%, -50%) rotate(calc(-1 * var(--angle))) translateY(calc(-1 * var(--radius))) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(calc(-1 * var(--angle))) translateY(calc(-1 * var(--radius))) rotate(-360deg); }
+}
+@keyframes pulseCore {
+  0% { opacity: 0.6; }
+  100% { opacity: 1; box-shadow: 0 0 50px rgba(79,142,255,0.6); }
+}
+
+/* Responsive: Perkecil Orbit di HP */
+@media (max-width: 900px) {
+  .orbit-system { transform: scale(0.45); height: 500px !important; margin-top: -50px; }
+  .hud-panel { bottom: 20px; width: 250px; padding: 15px; }
+  .ring-4 { display: none; } /* Sembunyikan ring terluar di HP */
+}
+/* --- PROJECT CARD HOLOGRAPHIC OVERHAUL (CSS ONLY) --- */
+
+/* 1. HUD Corner Brackets (Siku-siku Radar) */
+.project-card {
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.project-card::before,
+.project-card::after {
+  content: '';
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border: 2px solid transparent;
+  z-index: 10;
+  transition: all 0.4s ease;
+  pointer-events: none;
+  opacity: 0.2; /* Terlihat samar saat tidak di-hover */
+}
+
+.project-card::before {
+  top: 12px; left: 12px;
+  border-top-color: #4f8eff;
+  border-left-color: #4f8eff;
+}
+
+.project-card::after {
+  bottom: 12px; right: 12px;
+  border-bottom-color: #4f8eff;
+  border-right-color: #4f8eff;
+}
+
+/* Siku-siku menyala dan membesar saat di-hover */
+.project-card:hover::before,
+.project-card:hover::after {
+  opacity: 1;
+  width: 25px;
+  height: 25px;
+  box-shadow: 0 0 10px rgba(79, 142, 255, 0.5);
+}
+
+/* 2. Kartu Terangkat & Menyala */
+.project-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(79, 142, 255, 0.2);
+  border-color: rgba(79, 142, 255, 0.5);
+}
+
+/* 3. Judul Proyek Menyala Biru */
+.project-card h3 {
+  transition: all 0.3s ease;
+}
+.project-card:hover h3 {
+  color: #4f8eff;
+  text-shadow: 0 0 10px rgba(79, 142, 255, 0.8);
+}
+
+/* 4. Digital Grid Overlay (Grid data) */
+.project-card .project-body {
+  position: relative;
+  z-index: 1;
+}
+.project-card .project-body::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(79, 142, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(79, 142, 255, 0.05) 1px, transparent 1px);
+  background-size: 20px 20px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: -1;
+}
+.project-card:hover .project-body::before {
+  opacity: 1;
+}
+
+/* 5. Holographic Scanline (Garis Pemindai Turun) */
+.project-card .project-body::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, #4f8eff, transparent);
+  box-shadow: 0 0 10px #4f8eff;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 10;
+  pointer-events: none;
+}
+.project-card:hover .project-body::after {
+  opacity: 1;
+  animation: scanSweep 2s linear infinite;
+}
+
+@keyframes scanSweep {
+  0% { top: 0; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* --- INLINE SPOTIFY WIDGET (DI ABOUT) --- */
+.inline-spotify-box {
+  border: 1px solid rgba(29, 185, 84, 0.3);
+  border-radius: 8px;
+  background: rgba(5, 10, 20, 0.6);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 0 20px rgba(29, 185, 84, 0.05);
+  overflow: hidden;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.spotify-box-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  background: rgba(29, 185, 84, 0.1);
+  color: #1DB954;
+  font-family: monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  border-bottom: 1px solid rgba(29, 185, 84, 0.2);
+}
+
+.spotify-box-header .text-green {
+  color: #1DB954 !important;
+}
+/* Jadi bulat sempurna */
+  overflow: hidden;
+  border: 3px solid rgba(79, 142, 255, 0.4);
+  box-shadow: 
+    0 0 50px rgba(79, 142, 255, 0.2), 
+    inset 0 0 30px rgba(0,0,0,0.8);
+  animation: floatImage 6s ease-in-out infinite alternate;
+  margin: 0 auto; /* Biar ke tengah */
+}
+
+.hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center; /* Fokus ke muka */
+  filter: grayscale(20%) contrast(1.1);
+  transition: filter 0.5s ease, transform 0.5s ease;
+}
+
+.hero-image-container:hover .hero-image {
+  filter: grayscale(0%) contrast(1.1);
+  transform: scale(1.05); /* Sedikit zoom saat di-hover */
+}
+
+.hero-image-glow {
+  position: absolute;
+  inset: -20px;
+  background: radial-gradient(circle, rgba(79,142,255,0.2) 0%, transparent 70%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.hero-image-scanline {
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, transparent, #4f8eff, transparent);
+  box-shadow: 0 0 15px #4f8eff;
+  animation: scanlineAnim 4s linear infinite;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+
+  100% { transform: translateY(-15px); }
+}
+
+/* --- HOLOGRAM AVATAR (DI ABOUT) --- */
+.hologram-avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #4f8eff;
+  box-shadow: 0 0 15px rgba(79, 142, 255, 0.5);
+  flex-shrink: 0;
+}
+.hologram-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+@media (max-width: 900px) {
+  .hero-image-container {
+    width: 260px;
+    height: 260px;
+    margin-top: 40px;
+  }
+}
+/* --- HERO PROFILE IMAGE (MODERN ROUNDED RECTANGLE) --- */
+.hero-image-container {
+  position: relative;
+  width: 380px;
+  height: 480px;
+  /* Sudut asimetris: kiri-atas & kanan-bawah lebih tajam, kanan-atas & kiri-bawah lebih bulat */
+  border-radius: 16px 64px 16px 64px; 
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Garis tipis elegan, bukan neon */
+  box-shadow: 
+    0 20px 50px rgba(0, 0, 0, 0.8),
+    0 0 0 1px rgba(255, 255, 255, 0.05); /* Inner shadow tipis */
+   /* Gerakan lebih lambat & halus */
+  margin: 0 auto;
+  background: #000;
+}
+
+.hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  filter: grayscale(100%) contrast(1.1); /* Awalnya hitam putih */
+  transition: filter 0.6s ease, transform 0.6s ease;
+}
+
+/* Efek hover: Warna muncul perlahan */
+.hero-image-container:hover .hero-image {
+  filter: grayscale(0%) contrast(1.1);
+  transform: scale(1.03); /* Zoom sangat halus */
+}
+
+/* Hapus efek glow dan scanline yang norak */
+.hero-image-glow,
+.hero-image-scanline {
+  display: none !important;
+}
+
+
+  100% { transform: translateY(-12px); }
+}
+
+/* --- HOLOGRAM AVATAR (DI ABOUT) --- */
+/* Sesuaikan bentuk avatar di About agar tidak bulat juga */
+.hologram-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 12px 24px 12px 24px; /* Asimetris juga */
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  flex-shrink: 0;
+}
+.hologram-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+@media (max-width: 900px) {
+  .hero-image-container {
+    width: 300px;
+    height: 380px;
+    margin-top: 40px;
+  }
+}
+/* Tambahan untuk Efek 3D Tilt */
+.hero-image-container {
+  position: relative;
+  width: 380px;
+  height: 480px;
+  border-radius: 16px 64px 16px 64px; 
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.15); 
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  background: #000;
+  will-change: transform; /* Optimasi performa */
+}
+
+/* Efek Kilauan (Glare) */
+.hero-image-glare {
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at center, rgba(255,255,255,0.15) 0%, transparent 60%);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.hero-image-container:hover .hero-image-glare {
+  opacity: 1;
+}
+
+/* Foto di dalam */
+.hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  filter: grayscale(100%) contrast(1.1); 
+  transition: filter 0.6s ease, transform 0.6s ease;
+  transform: translateZ(30px); /* Efek Pop-out 3D */
+}
+
+.hero-image-container:hover .hero-image {
+  filter: grayscale(0%) contrast(1.1);
+  transform: translateZ(50px) scale(1.02); /* Lebih pop-out saat hover */
+}
+
+@media (max-width: 900px) {
+  .hero-image-container {
+    width: 300px;
+    height: 380px;
+  }
+}
+/* --- LIVE CLOCK HUD --- */
+.live-clock-hud {
+  position: fixed;
+  top: 80px;
+  right: 24px;
+  background: rgba(5, 10, 20, 0.8);
+  border: 1px solid rgba(79, 142, 255, 0.3);
+  padding: 12px 16px;
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+  z-index: 100;
+  font-family: monospace;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  pointer-events: none;
+}
+.clock-row { display: flex; align-items: center; gap: 8px; color: #fff; font-size: 0.9rem; }
+.status-row { display: flex; align-items: center; gap: 8px; color: #4ade80; font-size: 0.65rem; letter-spacing: 0.1em; }
+
+/* --- SPACE MEMORY GAME --- */
+
+.game-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #4f8eff;
+  font-family: monospace;
+  font-size: 0.85rem;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(79,142,255,0.2);
+  padding-bottom: 12px;
+}
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.memory-card {
+  aspect-ratio: 1;
+  perspective: 1000px;
+  cursor: pointer;
+}
+.card-inner {
+  position: relative;
+  width: 100%; height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+.memory-card.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+.card-front, .card-back {
+  position: absolute;
+  width: 100%; height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  font-family: monospace;
+  font-size: 1.5rem;
+}
+.card-front {
+  background: rgba(79, 142, 255, 0.1);
+  border: 1px solid rgba(79, 142, 255, 0.3);
+  color: #4f8eff;
+}
+.card-back {
+  background: #4f8eff;
+  color: #000;
+  transform: rotateY(180deg);
+}
+.game-overlay-win {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px;
+  z-index: 10;
+}
+.game-overlay-win h3 { color: #4ade80; font-family: monospace; margin-bottom: 8px; }
+.secret-text { color: #fff; font-style: italic; margin: 16px 0; border-left: 2px solid #4f8eff; padding-left: 12px; text-align: left; }
+/* --- COMM LINKS PANEL (GABUNGAN SOSMED) --- */
+.comm-links-panel {
+  margin-top: 32px;
+  background: rgba(10, 15, 30, 0.4);
+  border: 1px solid rgba(79, 142, 255, 0.15);
+  border-radius: 12px;
+  padding: 20px;
+  backdrop-filter: blur(10px);
+}
+
+.comm-links-title {
+  font-family: monospace;
+  font-size: 0.75rem;
+  color: #4f8eff;
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.social-links-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.social-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  color: #888;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.social-btn:hover {
+  color: #fff;
+  background: rgba(79, 142, 255, 0.1);
+}
+
+.social-btn span {
+  font-size: 0.7rem;
+  font-family: monospace;
+  letter-spacing: 0.05em;
+}
+
+@media (max-width: 768px) {
+  .social-links-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+/* --- CYBER ARCADE LAYOUT --- */
+.arcade-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 40px;
+}
+
+.arcade-panel {
+  background: rgba(10, 15, 30, 0.6);
+  border: 1px solid rgba(79, 142, 255, 0.3);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.panel-header {
+  background: rgba(79, 142, 255, 0.1);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #4f8eff;
+  font-family: monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  border-bottom: 1px solid rgba(79, 142, 255, 0.2);
+}
+
+/* Matrix Panel */
+.matrix-container {
+  position: relative;
+  height: 350px;
+  width: 100%;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.matrix-overlay-text {
+  position: absolute;
+  z-index: 2;
+  text-align: center;
+  font-family: monospace;
+  color: #4f8eff;
+  text-shadow: 0 0 10px #4f8eff;
+  font-size: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: rgba(0,0,0,0.5);
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px dashed #4f8eff;
+}
+
+.matrix-overlay-text p:nth-child(1) { animation: blinkText 3s infinite; }
+.matrix-overlay-text p:nth-child(2) { animation: blinkText 3s infinite 1s; }
+.matrix-overlay-text p:nth-child(3) { color: #4ade80; animation: blinkText 3s infinite 2s; }
+
+@keyframes blinkText {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* Game Panel */
+.game-container-inner {
+  position: relative;
+  height: 350px;
+  width: 100%;
+  background: #050505;
+}
+
+.game-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+}
+
+.game-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(4px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  gap: 16px;
+}
+
+.game-overlay h3 { font-size: 1.5rem; color: #fff; }
+.game-overlay p { font-size: 1.2rem; color: #aaa; margin-bottom: 16px; }
+.text-red { color: #ff5555 !important; }
+.text-xl { font-size: 2rem !important; font-weight: bold; }
+
+.game-hud {
+  position: absolute;
+  bottom: 16px; left: 16px; right: 16px;
+  display: flex; justify-content: space-between; font-family: monospace; font-size: 0.8rem;
+  color: #666; pointer-events: none;
+}
+
+@media (max-width: 900px) {
+  .arcade-grid { grid-template-columns: 1fr; }
+}
+/* --- MEMORY GAME DI DALAM ARCADE --- */
+.memory-wrapper {
+  height: 350px;
+  padding: 20px;
+  background: #050505;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.memory-wrapper .game-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #4ade80;
+  font-family: monospace;
+  font-size: 0.8rem;
+  margin-bottom: 12px;
+  border-bottom: 1px dashed rgba(74, 222, 128, 0.3);
+  padding-bottom: 8px;
+}
+
+.memory-wrapper .game-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  width: 100%;
+  max-width: 280px;
+}
+
+.memory-wrapper .memory-card {
+  aspect-ratio: 1;
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.memory-wrapper .card-inner {
+  position: relative;
+  width: 100%; height: 100%;
+  transition: transform 0.5s;
+  transform-style: preserve-3d;
+}
+
+.memory-wrapper .memory-card.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+.memory-wrapper .card-front, 
+.memory-wrapper .card-back {
+  position: absolute;
+  width: 100%; height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  font-family: monospace;
+  font-size: 1.2rem;
+}
+
+.memory-wrapper .card-front {
+  background: rgba(74, 222, 128, 0.1);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  color: #4ade80;
+}
+
+.memory-wrapper .card-back {
+  background: #4ade80;
+  color: #000;
+  transform: rotateY(180deg);
+}
+
+.memory-wrapper .game-overlay-win {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px;
+  z-index: 10;
+}
+
+.memory-wrapper .game-overlay-win h3 { color: #4ade80; font-family: monospace; margin-bottom: 8px; }
+.memory-wrapper .secret-text { color: #fff; font-style: italic; margin: 16px 0; border-left: 2px solid #4ade80; padding-left: 12px; text-align: left; font-size: 0.85rem; }
+/* --- MEMORY GAME DI DALAM ARCADE --- */
+.memory-wrapper {
+  height: 350px;
+  padding: 20px;
+  background: #050505;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.memory-wrapper .game-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #4ade80;
+  font-family: monospace;
+  font-size: 0.8rem;
+  margin-bottom: 12px;
+  border-bottom: 1px dashed rgba(74, 222, 128, 0.3);
+  padding-bottom: 8px;
+}
+
+.memory-wrapper .game-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  width: 100%;
+  max-width: 280px;
+}
+
+.memory-wrapper .memory-card {
+  aspect-ratio: 1;
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.memory-wrapper .card-inner {
+  position: relative;
+  width: 100%; height: 100%;
+  transition: transform 0.5s;
+  transform-style: preserve-3d;
+}
+
+.memory-wrapper .memory-card.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+.memory-wrapper .card-front, 
+.memory-wrapper .card-back {
+  position: absolute;
+  width: 100%; height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  font-family: monospace;
+  font-size: 1.2rem;
+}
+
+.memory-wrapper .card-front {
+  background: rgba(74, 222, 128, 0.1);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  color: #4ade80;
+}
+
+.memory-wrapper .card-back {
+  background: #4ade80;
+  color: #000;
+  transform: rotateY(180deg);
+}
+
+.memory-wrapper .game-overlay-win {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px;
+  z-index: 10;
+}
+
+.memory-wrapper .game-overlay-win h3 { color: #4ade80; font-family: monospace; margin-bottom: 8px; }
+.memory-wrapper .secret-text { color: #fff; font-style: italic; margin: 16px 0; border-left: 2px solid #4ade80; padding-left: 12px; text-align: left; font-size: 0.85rem; }
+
+/* Tinggi tetap agar bisa di-scroll */
+}
+
+.lyrics-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: rgba(74, 222, 128, 0.1);
+  color: #4ade80;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  border-bottom: 1px solid rgba(74, 222, 128, 0.2);
+  flex-shrink: 0;
+}
+
+.lyrics-play-btn {
+  margin-left: auto;
+  background: transparent;
+  border: 1px solid #4ade80;
+  color: #4ade80;
+  font-family: monospace;
+  font-size: 0.65rem;
+  padding: 2px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.lyrics-play-btn:hover { background: rgba(74, 222, 128, 0.2); }
+.lyrics-play-btn.playing {
+  background: #4ade80;
+  color: #000;
+}
+
+.lyrics-body {
+  padding: 20px 16px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  scrollbar-width: none; /* Sembunyikan scrollbar */
+  scroll-behavior: smooth;
+}
+.lyrics-body::-webkit-scrollbar { display: none; }
+
+/* Style Lirik */
+.lyric-line {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  transition: all 0.4s ease;
+  margin: 0;
+  text-align: center;
+}
+
+/* Lirik yang belum dinyanyikan (Blur & Redup) */
+.lyric-line.upcoming {
+  color: #444;
+  filter: blur(1px);
+  transform: scale(0.95);
+}
+
+/* Lirik yang sedang dinyanyikan (Menyala Terang) */
+.lyric-line.active {
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.05rem;
+  text-shadow: 0 0 15px #4ade80;
+  transform: scale(1.05);
+  margin: 10px 0;
+}
+
+/* Lirik yang sudah lewat */
+.lyric-line.past {
+  color: #666;
+  opacity: 0.4;
+  transform: scale(0.9);
+}
+
+.lyric-prompt {
+  color: #4ade80;
+  margin-right: 8px;
+  animation: pulseText 1s infinite alternate;
+}
+/* --- SYSTEM DIAGNOSTICS HUD --- */
+.sys-diagnostics {
+  background: rgba(5, 10, 15, 0.8);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  border-radius: 8px;
+  overflow: hidden;
+  font-family: monospace;
+  box-shadow: inset 0 0 20px rgba(74, 222, 128, 0.05);
+  margin-top: 10px;
+}
+
+.sys-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: rgba(74, 222, 128, 0.1);
+  color: #4ade80;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  border-bottom: 1px solid rgba(74, 222, 128, 0.2);
+}
+
+.sys-status {
+  margin-left: auto;
+  color: #000;
+  background: #4ade80;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.6rem;
+  font-weight: bold;
+  animation: pulseText 1s infinite alternate;
+}
+
+.sys-body {
+  display: flex;
+  padding: 16px;
+  gap: 20px;
+}
+
+.sys-left { flex: 1; display: flex; flex-direction: column; gap: 12px; }
+
+.sys-bar-group { display: flex; flex-direction: column; gap: 4px; }
+.sys-bar-label { display: flex; justify-content: space-between; color: #aaa; font-size: 0.75rem; }
+.sys-bar-label span { display: flex; align-items: center; gap: 4px; }
+.sys-bar-bg { width: 100%; height: 6px; background: #222; border-radius: 3px; overflow: hidden; }
+.sys-bar-fill { height: 100%; transition: width 1s ease-in-out, background 0.3s; box-shadow: 0 0 10px currentColor; }
+
+.sys-data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px; }
+.sys-data-box { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.05); padding: 8px; border-radius: 4px; text-align: center; }
+.sys-data-box p { font-size: 0.6rem; color: #666; margin-bottom: 4px; }
+.sys-data-box h4 { font-size: 0.9rem; color: #fff; display: flex; align-items: center; justify-content: center; gap: 4px; }
+
+/* RADAR */
+.sys-right { width: 110px; height: 110px; display: flex; align-items: center; justify-content: center; }
+.radar-container {
+  width: 100px; height: 100px;
+  border-radius: 50%;
+  border: 1px solid rgba(74, 222, 128, 0.4);
+  position: relative;
+  overflow: hidden;
+  background: rgba(0, 20, 0, 0.5);
+}
+
+.radar-grid-circle {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1px dashed rgba(74, 222, 128, 0.2);
+}
+.c1 { width: 70%; height: 70%; }
+.c2 { width: 40%; height: 40%; }
+.c3 { width: 10%; height: 10%; background: rgba(74, 222, 128, 0.2); }
+
+.radar-sweep {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  background: conic-gradient(from 0deg, rgba(74, 222, 128, 0.4) 0deg, transparent 90deg, transparent 360deg);
+  border-radius: 50%;
+  animation: radarSpin 3s linear infinite;
+}
+
+@keyframes radarSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.radar-dot {
+  position: absolute;
+  width: 4px; height: 4px;
+  background: #4ade80;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #4ade80;
+  animation: pulseDot 2s infinite;
+}
+.d1 { top: 30%; left: 40%; animation-delay: 0s; }
+.d2 { top: 60%; left: 70%; animation-delay: 0.5s; }
+.d3 { top: 70%; left: 30%; animation-delay: 1s; }
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 1; }
+}
+/* --- ORBITAL TECH STACK (BOLD & INTENSE HUD) --- */
+.orbit-system {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  overflow: visible;
+}
+
+/* Inti Tengah dengan Efek Neon Tebal */
+.orbit-core {
+  position: absolute;
+  width: 110px; height: 110px;
+  background: radial-gradient(circle, rgba(79,142,255,0.3) 0%, rgba(0,0,0,0.8) 80%);
+  border: 2px solid rgba(79,142,255,0.8);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 40px rgba(79,142,255,0.4), inset 0 0 20px rgba(79,142,255,0.2);
+  z-index: 10;
+  animation: pulseCore 3s ease-in-out infinite alternate;
+}
+
+.core-text {
+  font-family: monospace;
+  font-weight: bold;
+  color: #fff;
+  letter-spacing: 0.1em;
+  font-size: 1rem;
+  text-shadow: 0 0 10px #4f8eff, 0 0 20px #4f8eff, 0 0 30px #4f8eff;
+}
+
+/* Garis Orbit Lebih Tebal & Menyala */
+.orbit-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid rgba(79, 142, 255, 0.2);
+  box-shadow: 0 0 15px rgba(79, 142, 255, 0.1), inset 0 0 15px rgba(79, 142, 255, 0.1);
+}
+.ring-1 { width: 280px; height: 280px; border-color: rgba(79, 142, 255, 0.4); }
+.ring-2 { width: 480px; height: 480px; border-style: dashed; }
+.ring-3 { width: 680px; height: 680px; border-color: rgba(79, 142, 255, 0.15); }
+.ring-4 { width: 880px; height: 880px; border-style: dashed; border-color: rgba(79, 142, 255, 0.08); }
+
+.orbit-node-wrapper {
+  position: absolute;
+  width: 0; height: 0;
+  animation: spinOrbit var(--speed) linear infinite;
+}
+
+.orbit-node {
+  position: absolute;
+  transform: translate(-50%, -50%) rotate(calc(-1 * var(--angle))) translateY(calc(-1 * var(--radius)));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: spinOrbitReverse var(--speed) linear infinite;
+  cursor: pointer;
+}
+
+/* Kotak Ikon Lebih Tebal */
+.tech-icon-box {
+  width: 48px; height: 48px;
+  background: rgba(10,10,20,0.9);
+  border: 2px solid rgba(255,255,255,0.15);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  backdrop-filter: blur(4px);
+  box-shadow: 0 0 10px rgba(0,0,0,0.8);
+}
+
+/* Efek Hover Lebih Besar & Menyala Terang */
+.orbit-node:hover .tech-icon-box {
+  transform: scale(1.4);
+  border-color: currentColor;
+  box-shadow: 0 0 25px currentColor, inset 0 0 15px currentColor;
+  background: rgba(0,0,0,0.9);
+  z-index: 20;
+}
+
+/* Panel HUD Lebih Tegas */
+.hud-panel {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 320px;
+  background: rgba(0, 5, 15, 0.95);
+  border: 2px solid #4f8eff;
+  border-radius: 4px;
+  padding: 24px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 0 40px rgba(79, 142, 255, 0.3), inset 0 0 20px rgba(79, 142, 255, 0.1);
+  z-index: 50;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hud-scanline {
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 3px;
+  background: #4f8eff;
+  box-shadow: 0 0 15px #4f8eff, 0 0 30px #4f8eff;
+  animation: scanlineAnim 2s linear infinite;
+}
+
+.hud-corner {
+  position: absolute;
+  width: 12px; height: 12px;
+  border: 2px solid #fff;
+}
+.top-left { top: -2px; left: -2px; border-right: none; border-bottom: none; }
+.top-right { top: -2px; right: -2px; border-left: none; border-bottom: none; }
+.bottom-left { bottom: -2px; left: -2px; border-right: none; border-top: none; }
+.bottom-right { bottom: -2px; right: -2px; border-left: none; border-top: none; }
+
+.hud-content { text-align: center; }
+.hud-content h4 { font-size: 1.5rem; font-family: monospace; letter-spacing: 0.1em; margin-bottom: 8px; text-shadow: 0 0 10px currentColor; }
+.hud-desc { color: #ccc; font-size: 1rem; font-weight: 500; }
+.hud-orbit { color: #4f8eff; font-size: 0.8rem; font-family: monospace; margin-top: 12px; letter-spacing: 0.1em; border-top: 1px dashed rgba(79,142,255,0.3); padding-top: 8px; }
+
+@keyframes spinOrbit {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+@keyframes spinOrbitReverse {
+  0% { transform: translate(-50%, -50%) rotate(calc(-1 * var(--angle))) translateY(calc(-1 * var(--radius))) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(calc(-1 * var(--angle))) translateY(calc(-1 * var(--radius))) rotate(-360deg); }
+}
+@keyframes pulseCore {
+  0% { box-shadow: 0 0 30px rgba(79,142,255,0.3), inset 0 0 10px rgba(79,142,255,0.1); }
+  100% { box-shadow: 0 0 60px rgba(79,142,255,0.8), inset 0 0 30px rgba(79,142,255,0.4); border-color: #fff; }
+}
+
+@media (max-width: 900px) {
+  .orbit-system { transform: scale(0.45); height: 500px !important; margin-top: -50px; }
+  .hud-panel { bottom: 20px; width: 260px; padding: 16px; }
+  .ring-4 { display: none; }
+}
+/* --- GITHUB TELEMETRY STATS PANEL --- */
+.github-stats-panel {
+  margin-top: 30px;
+  background: rgba(5, 10, 15, 0.8);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 0 20px rgba(74, 222, 128, 0.05);
+  overflow: hidden;
+}
+
+.stats-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: rgba(74, 222, 128, 0.1);
+  color: #4ade80;
+  font-family: monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  border-bottom: 1px solid rgba(74, 222, 128, 0.2);
+}
+
+.stats-status {
+  margin-left: auto;
+  color: #000;
+  background: #4ade80;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.65rem;
+  font-weight: bold;
+  animation: pulseText 1.5s infinite alternate;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  padding: 20px;
+}
+
+.g-stat-box {
+  background: rgba(0,0,0,0.5);
+  border: 1px dashed rgba(255,255,255,0.1);
+  padding: 16px;
+  border-radius: 6px;
+  text-align: center;
+  transition: all 0.3s;
+}
+
+.g-stat-box:hover {
+  border-color: #4ade80;
+  background: rgba(74, 222, 128, 0.05);
+  transform: translateY(-3px);
+}
+
+.g-icon {
+  color: #4ade80;
+  margin-bottom: 8px;
+}
+
+.g-stat-box p {
+  font-family: monospace;
+  font-size: 0.7rem;
+  color: #888;
+  margin-bottom: 4px;
+}
+
+.g-stat-box h4 {
+  font-size: 1.5rem;
+  color: #fff;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+/* --- FLUID BLACK HOLE LOADING SCREEN --- */
+.loading-screen {
+  position: fixed; inset: 0; z-index: 99999;
+  background: #000; display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+
+.loading-content {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+
+.loading-black-hole {
+  position: relative;
+  width: 180px; height: 180px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 40px;
+}
+
+/* Inti Black Hole (Organik) */
+.bh-core {
+  position: absolute;
+  width: 100px; height: 100px;
+  background: #000;
+  box-shadow: 
+    inset 0 0 20px 5px rgba(255, 255, 255, 0.1),
+    0 0 50px 15px rgba(79, 142, 255, 0.3);
+  z-index: 2;
+}
+
+/* Cincin Cahaya */
+.bh-ring {
+  position: absolute;
+  width: 240px; height: 80px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  -webkit-mask-image: radial-gradient(transparent 60%, black 61%);
+  mask-image: radial-gradient(transparent 60%, black 61%);
+  z-index: 1;
+}
+
+.ring-a {
+  border-top-color: #fff;
+  border-right-color: rgba(79,142,255,0.8);
+  transform: rotateX(70deg) rotateZ(0deg);
+  filter: drop-shadow(0 0 10px rgba(255,255,255,0.5));
+}
+
+.ring-b {
+  width: 280px; height: 100px;
+  border-bottom-color: rgba(79,142,255,0.5);
+  border-left-color: rgba(255,255,255,0.3);
+  transform: rotateX(70deg) rotateZ(180deg);
+  filter: drop-shadow(0 0 15px rgba(79,142,255,0.3));
+}
+
+/* Teks & UI */
+.loading-ui {
+  display: flex; flex-direction: column; align-items: center; z-index: 3;
+}
+
+.typing-text {
+  font-family: monospace; font-size: 1.1rem; color: #fff;
+  letter-spacing: 0.2em; margin-bottom: 20px;
+}
+
+.loading-bar-container {
+  width: 200px; height: 2px; background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px; overflow: hidden;
+}
+
+.loading-bar {
+  height: 100%; background: #4f8eff; box-shadow: 0 0 15px #4f8eff;
+}
+/* --- CONTACT SECTION ANIMATIONS --- */
+.contact-form-wrapper {
+  position: relative;
+  overflow: visible; /* Biar lasernya bisa nembus ke atas */
+}
+
+/* Animasi Laser Uplink */
+.uplink-laser {
+  position: absolute;
+  bottom: 50px; 
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  background: linear-gradient(to top, transparent, #4f8eff, #ffffff);
+  filter: blur(8px);
+  z-index: 10;
+  pointer-events: none;
+  box-shadow: 0 0 40px #4f8eff;
+}
+
+/* Input Field Glow (Hijau Neon) */
+.form-field input:focus, 
+.form-field textarea:focus {
+  outline: none;
+  border-color: #4ade80 !important;
+  background: rgba(5, 20, 10, 0.8) !important;
+  box-shadow: 0 0 20px rgba(74, 222, 128, 0.2), inset 0 0 10px rgba(74, 222, 128, 0.1) !important;
+  transition: all 0.3s ease;
+}
+
+/* Terminal Status Text */
+.form-status {
+  font-family: monospace;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  padding: 12px;
+  border-radius: 4px;
+  border-left: 3px solid;
+}
+
+.form-status.success {
+  background: rgba(74, 222, 128, 0.1);
+  color: #4ade80;
+  border-left-color: #4ade80;
+}
+
+.form-status.error {
+  background: rgba(255, 85, 85, 0.1);
+  color: #ff5555;
+  border-left-color: #ff5555;
+}
+
+/* Social Link Hover Enhancements */
+.social-btn {
+  position: relative;
+  overflow: hidden;
+}
+.social-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 100%; height: 100%;
+  background: radial-gradient(circle, rgba(79,142,255,0.2) 0%, transparent 70%);
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.3s ease;
+  z-index: 0;
+}
+.social-btn:hover::before {
+  transform: translate(-50%, -50%) scale(3);
+}
+.social-btn svg, .social-btn span {
+  position: relative;
+  z-index: 1;
+}
+/* --- ORBITAL TECH STACK (ULTRA BOLD OVERRIDE) --- */
+.orbit-core {
+  width: 120px !important;
+  height: 120px !important;
+  border: 4px solid #4f8eff !important;
+  background: radial-gradient(circle, rgba(79,142,255,0.4) 0%, rgba(0,0,0,0.9) 80%) !important;
+  box-shadow: 0 0 60px rgba(79,142,255,0.8), inset 0 0 30px rgba(79,142,255,0.5) !important;
+}
+
+.core-text {
+  font-weight: 900 !important;
+  font-size: 1.1rem !important;
+  text-shadow: 0 0 15px #4f8eff, 0 0 30px #4f8eff, 0 0 45px #4f8eff !important;
+}
+
+.orbit-ring {
+  border-width: 3px !important; /* Garis orbit jauh lebih tebal */
+}
+
+.ring-1 { 
+  border: 4px solid rgba(79, 142, 255, 0.6) !important; 
+  box-shadow: 0 0 20px rgba(79, 142, 255, 0.3) !important;
+}
+.ring-2 { 
+  border: 3px dashed rgba(79, 142, 255, 0.5) !important; 
+}
+.ring-3 { 
+  border: 4px solid rgba(79, 142, 255, 0.4) !important; 
+  box-shadow: 0 0 25px rgba(79, 142, 255, 0.2) !important;
+}
+.ring-4 { 
+  border: 3px dashed rgba(79, 142, 255, 0.3) !important; 
+}
+
+.tech-icon-box {
+  border-width: 3px !important; /* Border ikon lebih tebal */
+  background: #050505 !important;
+  box-shadow: 0 0 15px rgba(0,0,0,0.9) !important;
+}
+
+.tech-name {
+  font-weight: 700 !important;
+  font-size: 0.8rem !important;
+  text-shadow: 0 0 10px #4f8eff !important;
+}
+
+.hud-panel {
+  border: 3px solid #4f8eff !important;
+  box-shadow: 0 0 50px rgba(79, 142, 255, 0.4) !important;
+}
+/* --- FIX SPOTIFY HEIGHT --- */
+.inline-spotify-box {
+  min-height: 440px; /* Kunci tinggi minimal agar tidak kolaps */
+  display: flex;
+  flex-direction: column;
+}
+.inline-spotify-box iframe {
+  flex: 1; /* Iframe mengisi sisa ruang */
+  min-height: 380px;
+  width: 100%;
+  border: none;
 }
