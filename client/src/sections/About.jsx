@@ -1,10 +1,8 @@
 import Reveal from '../components/Reveal';
-import GlitchText from '../components/GlitchText';
 import { Terminal, Code2, Database, Cpu, Fingerprint, Radio } from 'lucide-react';
 import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
 
 export default function About({ profile }) {
-  // Logic untuk 3D Tilt Hologram Card
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const mouseXSpring = useSpring(x, { stiffness: 300, damping: 30 });
@@ -22,11 +20,20 @@ export default function About({ profile }) {
     <section id="about" className="section">
       <Reveal>
         <p className="eyebrow">ABOUT ME</p>
-        <GlitchText text="A developer in orbit." className="section-title" />
+        {/* Glitch dihapus, diganti animasi minimalis yang smooth */}
+        <motion.h2 
+          initial={{ opacity: 0, y: 20, filter: "blur(5px)" }}
+          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="section-title"
+        >
+          A developer in orbit.
+        </motion.h2>
       </Reveal>
       
       <div className="about-layout">
-        {/* KIRI: Holographic ID Card */}
+        {/* KIRI: Holographic ID Card (Tidak diubah) */}
         <Reveal delay={0.1}>
           <motion.div 
             className="hologram-card"
@@ -45,8 +52,8 @@ export default function About({ profile }) {
                 <img src="/profile.jpg" alt="Avatar" />
               </div>
               <div>
-                <h3>Damar Restu Santoso</h3>
-                <p>Aspiring Full-Stack Developer</p>
+                <h3>{profile?.name || 'Damar Restu Santoso'}</h3>
+                <p>{profile?.role || 'Aspiring Full-Stack Developer'}</p>
               </div>
             </div>
             
@@ -60,31 +67,31 @@ export default function About({ profile }) {
           </motion.div>
         </Reveal>
 
-        {/* KANAN: Terminal & Spotify */}
+        {/* KANAN: Terminal (Teks Diperbarui) & Spotify */}
         <Reveal delay={0.2} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           
-          {/* TERMINAL YANG SUDAH DIISI DATA KAMU */}
           <div className="terminal-box">
             <div className="terminal-header"><Terminal size={14} /> <span>damar@galaxy:~</span></div>
             <div className="terminal-body">
-              <p><span className="t-green"></span> <span className="t-blue">~</span> whoami</p>
-              <p className="t-muted">Damar Restu Santoso [Full-Stack Developer]</p>
+              <p><span className="t-green">&gt;</span> <span className="t-blue">~</span> whoami</p>
+              <p className="t-muted" style={{ marginBottom: '16px' }}>Damar Restu Santoso [Full-Stack Developer]</p>
               
-              <p><span className="t-green"></span> <span className="t-blue">~</span> cat core_stack.txt</p>
-              <p className="t-muted">Frontend: React, HTML5, CSS3, JavaScript, Tailwind</p>
-              <p className="t-muted">Backend : Node.js, Express, Python, PHP, Laravel</p>
-              <p className="t-muted">Database: MongoDB, MySQL</p>
+              <p><span className="t-green">&gt;</span> <span className="t-blue">~</span> cat about_me.txt</p>
+              <p className="t-muted" style={{ marginBottom: '16px', lineHeight: '1.6' }}>
+                I am an aspiring developer passionate about building clean, scalable web applications. 
+                I specialize in bridging elegant frontend design with robust backend architecture.
+              </p>
               
-              <p><span className="t-green"></span> <span className="t-blue">~</span> cat mission.txt</p>
-              <p className="t-muted">"To build impactful software that pushes boundaries and</p>
-              <p className="t-muted">delivers seamless digital experiences."</p>
+              <p><span className="t-green">&gt;</span> <span className="t-blue">~</span> cat mission.txt</p>
+              <p className="t-muted" style={{ marginBottom: '16px', lineHeight: '1.6' }}>
+                "To craft seamless digital experiences that solve real-world problems."
+              </p>
               
-              <p><span className="t-green"></span> <span className="t-blue">~</span> status</p>
-              <p className="t-muted">Available for opportunities<span className="blinking-cursor">_</span></p>
+              <p><span className="t-green">&gt;</span> <span className="t-blue">~</span> status --availability</p>
+              <p className="t-muted">Open for freelance & collaborations<span className="blinking-cursor">_</span></p>
             </div>
           </div>
 
-          {/* SPOTIFY PLAYER */}
           <div className="inline-spotify-box">
             <div className="spotify-box-header">
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
