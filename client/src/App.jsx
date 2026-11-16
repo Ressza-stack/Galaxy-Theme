@@ -11,8 +11,8 @@ import GalaxyBackground from './components/GalaxyBackground';
 import NebulaBackground from './components/NebulaBackground'; // FITUR BARU
 import LoadingScreen from './components/LoadingScreen';
 import StardustTrail from './components/StardustTrail';
-import AudioPlayer from './components/AudioPlayer';
-import TerminalWidget from './components/TerminalWidget';
+
+
 import './styles/globals.css';
 
 function PageTransitions({ children }) {
@@ -62,8 +62,8 @@ export default function App() {
             <NebulaBackground />
             <GalaxyBackground />
             <StardustTrail />
-            <AudioPlayer />
-            <TerminalWidget />
+            
+            
             <PageTransitions>
               <Routes>
                 <Route path="/" element={<Home />} />

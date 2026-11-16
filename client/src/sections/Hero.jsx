@@ -77,7 +77,8 @@ export default function Hero() {
           {/* Glare / Kilauan Cahaya */}
           <motion.div className="hero-image-glare" style={{ left: glareX, top: glareY }} />
           
-          <img src="/profile.jpg" alt="Damar Restu Santoso" className="hero-image" />
+          <img src="/profile.jpg" alt="Damar Restu Santoso" className="hero-image base-image" />
+          <img src="/anime.jpg" alt="Anime Avatar" className="hero-image hover-image" />
         </motion.div>
         
       </motion.div>
