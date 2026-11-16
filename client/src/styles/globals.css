@@ -463,19 +463,6 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
   opacity: 1;
   transform: scale(1);
 }
-/* --- CINEMATIC BLACK HOLE LOADING SCREEN --- */
-.loading-screen {
-  position: fixed; inset: 0; z-index: 99999;
-  background: #000; display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  overflow: hidden;
-}
-
-.loading-content {
-  position: relative;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-}
-
 /* Container Black Hole */
 .cinematic-black-hole {
   position: relative;
@@ -605,4 +592,130 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
     position: relative;
     top: 0;
   }
+}
+/* --- SCI-FI TARGETING CURSOR --- */
+body, a, button, input, textarea, select {
+  cursor: none !important; /* Sembunyikan kursor bawaan */
+}
+
+.cursor-dot, .cursor-ring {
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+}
+
+/* Titik Pusat */
+.cursor-dot {
+  width: 6px; height: 6px;
+  background: #00d8ff;
+  box-shadow: 0 0 10px #00d8ff, 0 0 20px #00d8ff;
+  transition: transform 0.1s ease-out;
+}
+
+/* Cincin Radar */
+.cursor-ring {
+  width: 40px; height: 40px;
+  border: 1px dashed rgba(0, 216, 255, 0.5);
+  transition: width 0.2s, height 0.2s, background-color 0.2s, border-color 0.2s;
+  animation: spinCursor 8s linear infinite;
+}
+
+/* Efek saat di-hover ke elemen interaktif */
+.cursor-ring.hovering {
+  width: 60px; height: 60px;
+  border: 1px solid #00d8ff;
+  background-color: rgba(0, 216, 255, 0.1);
+  box-shadow: 0 0 15px rgba(0, 216, 255, 0.4);
+  animation-duration: 2s; /* Berputar lebih cepat saat hover */
+}
+
+@keyframes spinCursor {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+  body, a, button { cursor: auto !important; }
+  .cursor-dot, .cursor-ring { display: none; }
+}
+/* --- WARP TRANSITION FLASH --- */
+.screen-flash {
+  position: fixed;
+  inset: 0;
+  z-index: 99998; /* Di bawah loading screen, di atas konten */
+  background: radial-gradient(circle, rgba(79, 142, 255, 0.8) 0%, rgba(255, 255, 255, 0.9) 100%);
+  pointer-events: none;
+}
+/* --- CANVAS VORTEX LOADING SCREEN --- */
+.loading-screen {
+  position: fixed; inset: 0; z-index: 99999;
+  background: #000; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  overflow: hidden;
+}
+
+.vortex-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  z-index: 1;
+}
+
+.loading-text-wrap {
+  position: relative;
+  z-index: 2; /* Teks di atas canvas */
+  display: flex; flex-direction: column; align-items: center;
+}
+
+.typing-text {
+  font-family: monospace; font-size: 0.9rem; color: #fff;
+  letter-spacing: 0.3em; margin-bottom: 16px;
+  text-shadow: 0 0 10px rgba(255,255,255,0.5);
+}
+
+.loading-bar-container {
+  width: 220px; height: 2px; background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px; overflow: hidden;
+}
+
+.loading-bar {
+  height: 100%; background: #4f8eff; box-shadow: 0 0 15px #4f8eff;
+}
+/* --- CANVAS VORTEX LOADING SCREEN --- */
+.loading-screen {
+  position: fixed; inset: 0; z-index: 99999;
+  background: #000; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  overflow: hidden;
+}
+
+.vortex-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  z-index: 1;
+}
+
+.loading-text-wrap {
+  position: relative;
+  z-index: 2; /* Teks di atas canvas */
+  display: flex; flex-direction: column; align-items: center;
+}
+
+.typing-text {
+  font-family: monospace; font-size: 0.9rem; color: #fff;
+  letter-spacing: 0.3em; margin-bottom: 16px;
+  text-shadow: 0 0 10px rgba(255,255,255,0.5);
+}
+
+.loading-bar-container {
+  width: 220px; height: 2px; background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px; overflow: hidden;
+}
+
+.loading-bar {
+  height: 100%; background: #4f8eff; box-shadow: 0 0 15px #4f8eff;
 }

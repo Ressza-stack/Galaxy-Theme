@@ -20,24 +20,6 @@ export default function StardustTrail() {
       mouse.y = e.clientY;
     };
 
-    // Efek Ledakan saat Klik
-    const handleClick = (e) => {
-      for (let i = 0; i < 40; i++) {
-        const angle = Math.random() * Math.PI * 2;
-        const speed = Math.random() * 8 + 2;
-        particles.push({
-          x: e.clientX,
-          y: e.clientY,
-          vx: Math.cos(angle) * speed,
-          vy: Math.sin(angle) * speed,
-          size: Math.random() * 3 + 1,
-          life: 1,
-          decay: Math.random() * 0.02 + 0.015,
-          color: Math.random() > 0.5 ? '255, 255, 255' : '255, 200, 100' // Putih atau Oranye
-        });
-      }
-    };
-
     const handleResize = () => {
       width = window.innerWidth;
       height = window.innerHeight;
@@ -46,7 +28,6 @@ export default function StardustTrail() {
     };
 
     window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('click', handleClick);
     window.addEventListener('resize', handleResize);
 
     const colors = ['255, 255, 255', '200, 220, 255', '255, 255, 200'];
@@ -58,14 +39,14 @@ export default function StardustTrail() {
       const dy = mouse.y - lastMouse.y;
       const speed = Math.sqrt(dx * dx + dy * dy);
 
-      // Trail saat mouse bergerak
+      // Hanya memunculkan partikel saat mouse bergerak (tanpa efek klik)
       if (speed > 2) {
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 2; i++) {
           particles.push({
             x: mouse.x + (Math.random() - 0.5) * 20,
             y: mouse.y + (Math.random() - 0.5) * 20,
-            vx: (Math.random() - 0.5) * 2,
-            vy: (Math.random() - 0.5) * 2,
+            vx: (Math.random() - 0.5) * 1.5,
+            vy: (Math.random() - 0.5) * 1.5,
             size: Math.random() * 2 + 0.5,
             life: 1,
             decay: Math.random() * 0.03 + 0.02,
@@ -82,10 +63,6 @@ export default function StardustTrail() {
         p.x += p.vx;
         p.y += p.vy;
         p.life -= p.decay;
-        
-        // Sedikit gesekan agar melambat
-        p.vx *= 0.96;
-        p.vy *= 0.96;
 
         if (p.life <= 0) {
           particles.splice(i, 1);
@@ -95,7 +72,7 @@ export default function StardustTrail() {
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(${p.color}, ${p.life})`;
-        ctx.shadowBlur = 10;
+        ctx.shadowBlur = 8;
         ctx.shadowColor = `rgba(${p.color}, ${p.life})`;
         ctx.fill();
       }
@@ -107,7 +84,6 @@ export default function StardustTrail() {
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('click', handleClick);
       window.removeEventListener('resize', handleResize);
     };
   }, []);
