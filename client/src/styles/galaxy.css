@@ -1,9 +1,9 @@
 .galaxy-bg {
   position: fixed; inset: 0; z-index: -1; overflow: hidden;
-  background: #000000;
+  background: #050610;
 }
 
-.star-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.star-canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.82; }
 
 /* SHOOTING STARS */
 .shooting-star {
@@ -119,5 +119,47 @@ a, button, input, textarea, select { cursor: none; }
 @media (max-width: 768px) {
   body, a, button { cursor: auto; }
   .cursor-dot, .cursor-ring { display: none; }
-  .black-hole-wrapper { display: none; }
+}
+
+.black-hole-container {
+  filter: drop-shadow(0 0 34px rgba(83, 102, 255, 0.16));
+}
+.black-hole-core {
+  width: 126px;
+  height: 126px;
+  background: radial-gradient(circle at 48% 48%, #000 0 58%, #010105 69%, rgba(3, 4, 12, 0.8) 80%, transparent 100%);
+  box-shadow: inset 0 0 36px 5px rgba(0, 0, 0, 1), 0 0 0 12px rgba(0,0,0,0.28), 0 0 34px 8px rgba(67, 79, 190, 0.2), 0 0 95px 24px rgba(104, 74, 205, 0.2);
+}
+.accretion-disk {
+  width: 348px;
+  height: 348px;
+  border: 0;
+  background: conic-gradient(from 18deg, transparent 0 22%, rgba(109, 133, 255, 0.14) 27%, rgba(213, 196, 255, 0.94) 32%, rgba(255, 238, 223, 0.72) 35%, rgba(118, 107, 255, 0.75) 39%, transparent 45% 56%, rgba(81, 117, 255, 0.18) 63%, rgba(188, 158, 255, 0.8) 68%, rgba(255, 234, 213, 0.92) 71%, rgba(130, 126, 255, 0.48) 75%, transparent 82% 100%);
+  -webkit-mask: radial-gradient(ellipse, transparent 0 36%, #000 43% 50%, transparent 57%);
+  mask: radial-gradient(ellipse, transparent 0 36%, #000 43% 50%, transparent 57%);
+  filter: blur(2px) drop-shadow(0 0 17px rgba(128, 115, 255, 0.64));
+  box-shadow: none;
+  animation: spinDisk 42s linear infinite, pulseDisk 7s ease-in-out infinite alternate;
+}
+.accretion-disk::before {
+  inset: 0;
+  border: 0;
+  background: radial-gradient(ellipse at center, transparent 32%, rgba(88, 118, 255, 0.14) 44%, rgba(211, 176, 255, 0.35) 47%, transparent 57%);
+  filter: blur(8px);
+}
+.black-hole-wrapper.grabbed .black-hole-core {
+  box-shadow: inset 0 0 36px 5px rgba(0, 0, 0, 1), 0 0 0 12px rgba(0,0,0,0.28), 0 0 38px 10px rgba(111, 131, 255, 0.34), 0 0 115px 32px rgba(150, 93, 255, 0.3);
+}
+@media (max-width: 768px) {
+  .black-hole-wrapper {
+    display: block;
+    width: min(68vw, 270px);
+    height: min(68vw, 270px);
+    opacity: 0.46;
+  }
+  .black-hole-core { width: 78px; height: 78px; }
+  .accretion-disk { width: min(58vw, 240px); height: min(58vw, 240px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .accretion-disk, .shooting-star { animation: none; }
 }
