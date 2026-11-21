@@ -8,8 +8,9 @@ export default function GalaxyBackground() {
   const [isTouchDevice, setIsTouchDevice] = useState(false);
   const [isGrabbed, setIsGrabbed] = useState(false);
 
-  const defaultX = typeof window !== 'undefined' ? window.innerWidth * 0.75 : 800;
-  const defaultY = typeof window !== 'undefined' ? window.innerHeight * 0.25 : 200;
+  const mobileLayout = typeof window !== 'undefined' && window.innerWidth <= 768;
+  const defaultX = typeof window !== 'undefined' ? window.innerWidth * (mobileLayout ? 0.53 : 0.75) : 800;
+  const defaultY = typeof window !== 'undefined' ? window.innerHeight * (mobileLayout ? 0.43 : 0.17) : 200;
 
   const bhX = useMotionValue(defaultX);
   const bhY = useMotionValue(defaultY);
@@ -40,6 +41,7 @@ export default function GalaxyBackground() {
     };
 
     const handleClick = (e) => {
+      if (isTouchDevice) return;
       const currentBx = springX.get();
       const currentBy = springY.get();
       const dist = Math.hypot(e.clientX - currentBx, e.clientY - currentBy);
@@ -52,8 +54,16 @@ export default function GalaxyBackground() {
       }
     };
 
+    const handleWindowResize = () => {
+      if (isGrabbed) return;
+      const mobileLayout = window.innerWidth <= 768;
+      bhX.set(window.innerWidth * (mobileLayout ? 0.53 : 0.75));
+      bhY.set(window.innerHeight * (mobileLayout ? 0.43 : 0.17));
+    };
+
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('click', handleClick);
+    window.addEventListener('resize', handleWindowResize);
 
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const canvas = canvasRef.current;
@@ -180,9 +190,10 @@ export default function GalaxyBackground() {
       window.removeEventListener('resize', onResize);
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('click', handleClick);
+      window.removeEventListener('resize', handleWindowResize);
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [isGrabbed, springX, springY]);
+  }, [isGrabbed, isTouchDevice, springX, springY]);
 
   return (
     <>
@@ -191,17 +202,15 @@ export default function GalaxyBackground() {
         <div className="shooting-star"></div>
         <div className="shooting-star"></div>
 
-        {!isTouchDevice && (
-          <motion.div 
-            className={`black-hole-wrapper ${isGrabbed ? 'grabbed' : ''}`}
-            style={{ x: springX, y: springY, translateX: '-50%', translateY: '-50%', position: 'fixed', top: 0, left: 0 }}
-          >
-            <div className="black-hole-container">
-              <div className="accretion-disk" />
-              <div className="black-hole-core" />
-            </div>
-          </motion.div>
-        )}
+        <motion.div
+          className={`black-hole-wrapper ${isGrabbed ? 'grabbed' : ''}`}
+          style={{ x: springX, y: springY, translateX: '-50%', translateY: '-50%', position: 'fixed', top: 0, left: 0 }}
+        >
+          <div className="black-hole-container">
+            <div className="accretion-disk" />
+            <div className="black-hole-core" />
+          </div>
+        </motion.div>
         
         <canvas ref={canvasRef} className="star-canvas" />
       </div>

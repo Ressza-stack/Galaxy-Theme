@@ -43,31 +43,26 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    // 1. Tampilkan Loading selama 3.8 detik
-    const timer1 = setTimeout(() => {
-      setIsLoading(false); // Matikan loader
-      setShowFlash(true);  // Nyalakan efek Flash layar
-    }, 3800);
+    let flashTimer;
+    const frame = requestAnimationFrame(() => {
+      setIsLoading(false);
+      setShowFlash(true);
+      flashTimer = window.setTimeout(() => setShowFlash(false), 400);
+    });
 
-    // 2. Matikan efek Flash setelah 4.2 detik (0.4 detik setelah loader hilang)
-    const timer2 = setTimeout(() => {
-      setShowFlash(false);
-    }, 4200);
-
-    return () => { clearTimeout(timer1); clearTimeout(timer2); };
+    return () => {
+      cancelAnimationFrame(frame);
+      window.clearTimeout(flashTimer);
+    };
   }, []);
 
   return (
     <BrowserRouter>
       <AuthProvider>
-        <AnimatePresence>
-          {isLoading && <LoadingScreen key="loader" />}
-        </AnimatePresence>
-
-        {/* EFER FLASH WARNA BIRU/WHITE SAAT TRANSISI */}
+        {isLoading && <LoadingScreen key="loader" />}
         <AnimatePresence>
           {showFlash && (
-            <motion.div 
+            <motion.div
               className="screen-flash"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
